@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2866b19cc9ee948998eb113963d710, type: 3}
+  m_Name: Speaker - Adam
+  m_EditorClassIdentifier: Spooktober::Dialogue_SpeakerSO
+  saveID: e4e3a731f62a8fa46b2ecd1b5e15ca59
+  speakerName: Adam
+  nameColor: {r: 0.62, g: 0.78, b: 1, a: 1}
+  defaultPortrait: {fileID: -7394895429501926087, guid: 7bd065b194450ad4f94eaab085adccf0, type: 3}
+  portraits:
+  - expression: 0
+    sprite: {fileID: -7394895429501926087, guid: 7bd065b194450ad4f94eaab085adccf0, type: 3}
+  - expression: 2
+    sprite: {fileID: -2387779973016504078, guid: 22626be1e346835438960d63e85ab0e9, type: 3}
+  - expression: 4
+    sprite: {fileID: 4813466593634383798, guid: c6cfe6659979d924381015fc1a225c63, type: 3}
+  - expression: 5
+    sprite: {fileID: 3753429104511121915, guid: b20ebce1477d06c499bc06fc60ae5f38, type: 3}
+  - expression: 3
+    sprite: {fileID: 8321275727606822517, guid: a351a01a8b7b17f40aa651ddfb8eb8d4, type: 3}

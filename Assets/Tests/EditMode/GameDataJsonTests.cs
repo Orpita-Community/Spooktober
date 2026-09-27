@@ -1,0 +1,68 @@
+using System.Collections.Generic;
+using NUnit.Framework;
+using UnityEngine;
+
+public class GameDataJsonTests
+{
+    [Test]
+    public void FullRoundTrip()
+    {
+        GameData data = new GameData
+        {
+            sceneName = "Shop",
+            hasPlayerPosition = true,
+            playerPosition = new Vector3(1, 2, 0),
+            chapterID = "act-1",
+            dialogue = new DialogueSaveState
+            {
+                isActive = true,
+                conversationID = "intro",
+                phase = DialoguePhase.Reaction,
+                lineID = "l1",
+                lineIndex = 1,
+                reactionChoiceID = "c2",
+                session = 4
+            }
+        };
+        data.metadata.chapterText = "Act 1 — 10:30 PM";
+        data.metadata.playTimeSeconds = 125.5f;
+        data.storyValues["humanity"] = 2;
+        data.history.Add(new HistoryEntry
+        {
+            type = HistoryEntryType.Line,
+            session = 4,
+            conversationID = "intro",
+            itemID = "l1",
+            choicesConversationID = "intro",
+            shownChoiceIDs = new List<string> { "c1", "c2" },
+            pickedChoiceID = "c2"
+        });
+
+        GameData loaded = JsonUtility.FromJson<GameData>(JsonUtility.ToJson(data, true));
+
+        Assert.AreEqual(GameData.CurrentVersion, loaded.saveVersion);
+        Assert.AreEqual("Shop", loaded.sceneName);
+        Assert.AreEqual(new Vector3(1, 2, 0), loaded.playerPosition);
+        Assert.AreEqual(2, loaded.storyValues["humanity"]);
+        Assert.AreEqual("Act 1 — 10:30 PM", loaded.metadata.chapterText);
+        Assert.AreEqual(125.5f, loaded.metadata.playTimeSeconds);
+        Assert.AreEqual(DialoguePhase.Reaction, loaded.dialogue.phase);
+        Assert.AreEqual("c2", loaded.dialogue.reactionChoiceID);
+        Assert.AreEqual(1, loaded.history.Count);
+        CollectionAssert.AreEqual(new[] { "c1", "c2" }, loaded.history[0].shownChoiceIDs);
+        Assert.AreEqual("c2", loaded.history[0].pickedChoiceID);
+    }
+
+    [Test]
+    public void EmptyJsonStillHasEveryCollection()
+    {
+        GameData loaded = JsonUtility.FromJson<GameData>("{}");
+
+        Assert.IsNotNull(loaded.metadata);
+        Assert.IsNotNull(loaded.storyValues);
+        Assert.IsNotNull(loaded.dialogue);
+        Assert.IsNotNull(loaded.history);
+        Assert.IsFalse(loaded.dialogue.isActive);
+        Assert.AreEqual(GameData.CurrentVersion, loaded.saveVersion);
+    }
+}

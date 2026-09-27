@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 259344a9732dcbb4fb861172d49249f3, type: 3}
+  m_Name: Dialogue Database
+  m_EditorClassIdentifier: Spooktober::Dialogue_DatabaseSO
+  conversations:
+  - {fileID: 11400000, guid: 6d85940a1ed241c4ab7e6555d5aaf241, type: 2}
+  - {fileID: 11400000, guid: 99e5190c6870d4f4593ac4cb7a015c35, type: 2}
+  - {fileID: 11400000, guid: 59dd38cefddbf2841bb2bf812e023557, type: 2}
+  - {fileID: 11400000, guid: 8beb60f99c4bc7e4c8f825dae4c7e32b, type: 2}
+  - {fileID: 11400000, guid: acc3f1d67400582468261301ed2f73d9, type: 2}
+  - {fileID: 11400000, guid: 455edf50d1e34874ea69c5dd3ddc9761, type: 2}
+  - {fileID: 11400000, guid: 03fdec9fb8e116c4cad146f1fbf5bfd2, type: 2}
+  - {fileID: 11400000, guid: 3860580a2b6ff074d80ff1f00a35610e, type: 2}
+  - {fileID: 11400000, guid: 6de1ace42cfe6084095c925da0bcada9, type: 2}
+  - {fileID: 11400000, guid: e0f777b6c35164c45a06a78528f0cece, type: 2}
+  - {fileID: 11400000, guid: 46bc12f69da81be4ca21854c6c54db3a, type: 2}
+  speakers:
+  - {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+  - {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+  chapters:
+  - {fileID: 11400000, guid: 003fbbcc9207df9499673ad4849480f7, type: 2}
+  - {fileID: 11400000, guid: b641b0ff405338d418f779ac70f98420, type: 2}
+  - {fileID: 11400000, guid: b958978a1245ed54687de80f394644e5, type: 2}
+  variables:
+  - {fileID: 11400000, guid: d68c00d806004494fa49638d0e8e9045, type: 2}
+  - {fileID: 11400000, guid: ef64d149c1a38a04bbc1893a157619af, type: 2}
+  - {fileID: 11400000, guid: 5439283e73fb2504099976ab99456309, type: 2}
+  - {fileID: 11400000, guid: 0001be92272b84e4b8cf5dc0d353481a, type: 2}
+  - {fileID: 11400000, guid: ea36ca2800b75c246925d1faa2afac28, type: 2}
