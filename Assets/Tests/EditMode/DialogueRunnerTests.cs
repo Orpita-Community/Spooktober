@@ -341,6 +341,125 @@ public class DialogueRunnerTests
         CollectionAssert.AreEqual(new[] { conversation }, entered);
     }
 
+    [Test]
+    public void EndGameStopsTheDialogueAndSaysWhichEndingItWas()
+    {
+        Dialogue_ConversationSO ending = Linear("ending", "The shop is silent.");
+        ending.endType = DialogueEndType.EndGame;
+        int ended = 0;
+        runner.Ended += () => ended++;
+
+        runner.Start(ending);
+        Assert.IsNull(runner.GameEnding);
+
+        runner.Advance();
+
+        Assert.IsFalse(runner.IsActive);
+        Assert.AreEqual(1, ended);
+        Assert.AreEqual(ending, runner.GameEnding);
+
+        runner.Start(Linear("again", "New game."));
+        Assert.IsNull(runner.GameEnding, "A new dialogue forgets the last ending.");
+    }
+
+    [Test]
+    public void APlainEndIsNotAGameEnding()
+    {
+        runner.Start(Linear("a", "one"));
+        runner.Advance();
+
+        Assert.IsFalse(runner.IsActive);
+        Assert.IsNull(runner.GameEnding);
+    }
+
+    #endregion
+
+    #region Stage
+
+    [Test]
+    public void EachLineRecordsTheStageAndItCarriesOver()
+    {
+        Stage_ImageSO shop = content.Image("bg-shop");
+        Dialogue_ConversationSO conversation = content.Conversation("c");
+        DialogueLine first = content.Line(conversation, "Vance is standing inside the shop.");
+        first.stage = TestContent.Cast(TestContent.On(adam, StageSlot.Left), TestContent.On(vance, StageSlot.Right));
+        first.stage.background = shop;
+        content.Line(conversation, "The door was locked.", vance, PortraitExpression.Smirk);
+
+        runner.Start(conversation);
+        StageSnapshot firstStage = Last.stage;
+        runner.Advance();
+        StageSnapshot secondStage = Last.stage;
+
+        Assert.AreEqual("bg-shop", firstStage.backgroundID);
+        Assert.AreEqual(2, firstStage.actors.Count);
+        Assert.AreEqual("bg-shop", secondStage.backgroundID);
+        Assert.AreEqual(PortraitExpression.Smirk, secondStage.FindActor(vance.saveID).expression);
+        Assert.AreEqual(PortraitExpression.Normal, firstStage.FindActor(vance.saveID).expression, "Earlier screens keep their own stage.");
+    }
+
+    [Test]
+    public void ReactionsAndChoiceOnlyScreensKeepTheStage()
+    {
+        Dialogue_ConversationSO followUp = content.Conversation("followUp", DialogueEndType.Choices);
+        content.Choice(followUp, "Go on");
+
+        Dialogue_ConversationSO intro = VanceIntro(out DialogueChoice give, out _, out DialogueChoice refuse);
+        intro.lines[0].stage = TestContent.Cast(TestContent.On(adam, StageSlot.Left), TestContent.On(vance, StageSlot.Right));
+        refuse.reactionLine = "How dare you.";
+        refuse.reactionExpression = PortraitExpression.Angry;
+        give.next = followUp;
+
+        runner.Start(intro);
+        runner.Advance();
+        runner.Choose(refuse.id);
+
+        Assert.AreEqual(HistoryEntryType.Reaction, Last.type);
+        Assert.AreEqual(PortraitExpression.Angry, Last.stage.FindActor(vance.saveID).expression);
+
+        runner.Stop();
+        runner.Start(intro);
+        runner.Advance();
+        runner.Choose(give.id);
+
+        Assert.AreEqual(HistoryEntryType.ChoiceOnly, Last.type);
+        Assert.AreEqual(2, Last.stage.actors.Count);
+    }
+
+    [Test]
+    public void ANewDialogueStartsWithAnEmptyStage()
+    {
+        Dialogue_ConversationSO first = Linear("first", "one");
+        first.lines[0].stage = TestContent.Cast(TestContent.On(adam, StageSlot.Center));
+        first.lines[0].stage.background = content.Image("bg-shop");
+
+        runner.Start(first);
+        runner.Advance();
+        runner.Start(Linear("second", "two"));
+
+        Assert.AreEqual("", Last.stage.backgroundID);
+        Assert.AreEqual(0, Last.stage.actors.Count);
+    }
+
+    [Test]
+    public void ALoadedSaveKeepsTheStageItWasSavedWith()
+    {
+        Dialogue_ConversationSO conversation = Linear("a", "one", "two");
+        conversation.lines[0].stage = TestContent.Cast(TestContent.On(adam, StageSlot.Left), TestContent.On(vance, StageSlot.Right));
+        conversation.lines[0].stage.background = content.Image("bg-shop");
+        conversation.lines[1].expression = PortraitExpression.Angry;
+        runner.Start(conversation);
+        runner.Advance();
+
+        DialogueRunner resumed = SaveAndReload(out _, out DialogueHistory loadedHistory);
+        HistoryEntry present = loadedHistory.Entries[loadedHistory.Entries.Count - 1];
+
+        Assert.AreEqual(1, resumed.LineIndex);
+        Assert.AreEqual("bg-shop", present.stage.backgroundID);
+        Assert.AreEqual(PortraitExpression.Angry, present.stage.FindActor(vance.saveID).expression);
+        Assert.AreEqual(StageSlot.Left, present.stage.FindActor(adam.saveID).slot);
+    }
+
     #endregion
 
     #region Save and resume

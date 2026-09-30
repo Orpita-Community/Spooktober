@@ -1,0 +1,193 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - B-3c The Memory Ends
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: a7aff302964c2884abd4f09471cbf342
+  chapter: {fileID: 0}
+  autosaveOnStart: 0
+  lines:
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The argument ends.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Nobody wins.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l02
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Nobody changes the other's mind.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Alexander closes the ledger.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l04
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Adam leaves.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+        slot: 2
+        expression: 7
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Alexander remains alone in the shop.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+        slot: 1
+        expression: 7
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l06
+  - speaker: {fileID: 0}
+    expression: 0
+    text: For the first time, Adam notices what he didn't notice five years ago.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+        slot: 1
+        expression: 2
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l07
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Alexander is crying.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l08
+  - speaker: {fileID: 0}
+    expression: 0
+    text: He quickly wipes his face.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l09
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 2
+    text: I'm fine.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l10
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Silence.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l11
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The memory ends.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l12
+  endType: 2
+  choices: []
+  branches: []
+  defaultNext: {fileID: 11400000, guid: 63f8b815571f3054a8dbc08b54c7d6b2, type: 2}
+  endCard:
+    title: THE END
+    subtitle: 

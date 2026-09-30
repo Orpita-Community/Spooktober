@@ -1,0 +1,280 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - A-02 The Box
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: 97c94d9766192354b90d276ddf289174
+  chapter: {fileID: 0}
+  autosaveOnStart: 0
+  lines:
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: I'm here to return something.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Vance places a wooden box on the counter.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 1
+      closeUpImage: {fileID: 11400000, guid: 6721de5125f212d4fb4b8a42eaa7636c, type: 2}
+    id: l02
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: I took it from this shop five years ago.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+        slot: 0
+        expression: 9
+        flip: 0
+      - character: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+        slot: 2
+        expression: 0
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: Tonight.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l04
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 9
+    text: You kept it for five years?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: I was told to.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l06
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Vance opens the box.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l07
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Inside is a glossy black obsidian mask.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 1
+      closeUpImage: {fileID: 11400000, guid: 879a82868906da9459958b3aa95d5722, type: 2}
+    id: l08
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Its surface catches the light like dark glass.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l09
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 9
+    text: That's...
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l10
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 9
+    text: That's new.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l11
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 9
+    text: Did you wear it?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l12
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: Once.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l13
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 9
+    text: And?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l14
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: That was enough.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l15
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 9
+    text: What does that mean?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l16
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: You'll understand.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l17
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 9
+    text: I don't like answers like that.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l18
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: Neither did I.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l19
+  endType: 2
+  choices: []
+  branches: []
+  defaultNext: {fileID: 11400000, guid: a3a9314cfdfbc4146a562b63e00a09c6, type: 2}
+  endCard:
+    title: THE END
+    subtitle: 

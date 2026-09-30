@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Spooktober::Story_VariableSO
   saveID: ef64d149c1a38a04bbc1893a157619af
   defaultValue: 0
-  description: Goes up with self-serving choices.
+  description: Cynical answers add 3. Otherwise the Cynicism ending (the grey coat).

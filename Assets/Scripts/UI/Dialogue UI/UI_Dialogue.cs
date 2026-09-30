@@ -10,15 +10,23 @@ using UnityEngine.UI;
 public class UI_Dialogue : MonoBehaviour, IPointerClickHandler
 {
     [Header("Speaker")]
+    [Tooltip("Only used for speakers who aren't standing on the stage.")]
     [SerializeField] private GameObject portraitRoot;
     [SerializeField] private Image portrait;
     [SerializeField] private GameObject namePlate;
     [SerializeField] private TextMeshProUGUI nameText;
 
     [Header("Text")]
+    [Tooltip("Optional. The box behind the name and text, hidden for centered lines.")]
+    [SerializeField] private GameObject textPanel;
     [SerializeField] private TextMeshProUGUI bodyText;
     [SerializeField] private GameObject continueIndicator;
     [SerializeField] private float charactersPerSecond = 40f;
+
+    [Header("Centered Lines (optional)")]
+    [Tooltip("Shown instead of the text box for Centered lines, usually a full-screen dim.")]
+    [SerializeField] private GameObject centerRoot;
+    [SerializeField] private TextMeshProUGUI centerText;
 
     [Header("Choices")]
     [SerializeField] private Transform choiceContainer;
@@ -45,6 +53,7 @@ public class UI_Dialogue : MonoBehaviour, IPointerClickHandler
     private DialogueManager dialogueManager;
     private DialogueScreen currentScreen;
     private Action<string> onChoiceSelected;
+    private TextMeshProUGUI activeText;
     private float typingProgress;
 
     public bool IsTyping { get; private set; }
@@ -79,24 +88,32 @@ public class UI_Dialogue : MonoBehaviour, IPointerClickHandler
         currentScreen = screen;
         onChoiceSelected = onChoice;
 
+        // Centered lines replace the whole text box
+        bool centered = screen.style == DialogueLineStyle.Centered && centerText != null;
+        SetActive(textPanel, !centered);
+        SetActive(centerRoot, centered);
+        activeText = centered ? centerText : bodyText;
+
         // Speaker (no speaker = narrator: no name plate, no portrait)
         bool hasName = !string.IsNullOrEmpty(screen.speakerName);
-        SetActive(namePlate, hasName);
+        SetActive(namePlate, hasName && !centered);
         if (nameText != null)
         {
             nameText.text = screen.speakerName;
             nameText.color = screen.nameColor;
         }
 
-        SetActive(portraitRoot, screen.portrait != null);
+        // A speaker standing on the stage is already visible
+        bool showPortrait = screen.portrait != null && !screen.speakerOnStage && !centered;
+        SetActive(portraitRoot, showPortrait);
         if (portrait != null)
-            portrait.sprite = screen.portrait;
+            portrait.sprite = showPortrait ? screen.portrait : null;
 
         // Text. maxVisibleCharacters keeps rich text tags working while typing
-        bodyText.text = screen.text;
-        bodyText.maxVisibleCharacters = typeIn ? 0 : int.MaxValue;
-        bodyText.ForceMeshUpdate();
-        CharacterCount = bodyText.textInfo.characterCount;
+        activeText.text = screen.text;
+        activeText.maxVisibleCharacters = typeIn ? 0 : int.MaxValue;
+        activeText.ForceMeshUpdate();
+        CharacterCount = activeText.textInfo.characterCount;
 
         typingProgress = 0f;
         IsTyping = typeIn && CharacterCount > 0;
@@ -138,7 +155,7 @@ public class UI_Dialogue : MonoBehaviour, IPointerClickHandler
 
         typingProgress += Time.deltaTime * charactersPerSecond; // Scaled time, so typing pauses with the game
         int visible = Mathf.FloorToInt(typingProgress);
-        bodyText.maxVisibleCharacters = visible;
+        activeText.maxVisibleCharacters = visible;
 
         if (visible >= CharacterCount)
             OnTypingFinished();
@@ -153,7 +170,7 @@ public class UI_Dialogue : MonoBehaviour, IPointerClickHandler
     private void OnTypingFinished()
     {
         IsTyping = false;
-        bodyText.maxVisibleCharacters = int.MaxValue;
+        activeText.maxVisibleCharacters = int.MaxValue;
 
         ShowChoices();
         SetActive(continueIndicator, currentScreen != null && !currentScreen.HasChoices);

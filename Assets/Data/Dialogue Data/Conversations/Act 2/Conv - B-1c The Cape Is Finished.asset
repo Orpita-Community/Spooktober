@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - B-1c The Cape Is Finished
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: ee06ab546dc52df40b60ee7f4178f1b5
+  chapter: {fileID: 0}
+  autosaveOnStart: 0
+  lines:
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The cape is finished.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Alexander folds it carefully.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l02
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Adam remembers the shop differently now.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Not as a place that kept losing money.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l04
+  - speaker: {fileID: 0}
+    expression: 0
+    text: As a place people came to when they had nowhere else to go.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  endType: 2
+  choices: []
+  branches: []
+  defaultNext: {fileID: 11400000, guid: 63db3dc90445c8445b468ea0c5204977, type: 2}
+  endCard:
+    title: THE END
+    subtitle: 

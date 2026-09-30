@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: Chapter - Act 1
   m_EditorClassIdentifier: Spooktober::Story_ChapterSO
   saveID: 003fbbcc9207df9499673ad4849480f7
-  label: "Act 1 \u2014 10:30 PM"
+  label: "Act 1 \u2014 The Man in the Rain"
+  titleCard:
+    title: ACT 1
+    subtitle: The Man in the Rain

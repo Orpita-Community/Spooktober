@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-// One screen the player saw. Only ids are stored; text, speaker and portrait come from the content,
+// One screen the player saw. Only ids are stored; text, speaker, portrait and stage images come from the content,
 // so the backlog and rollback follow text fixes and (later) the selected language.
 [Serializable]
 public class HistoryEntry
@@ -14,6 +14,8 @@ public class HistoryEntry
     public string choicesConversationID = "";               // The conversation whose choices were shown on this screen
     public List<string> shownChoiceIDs = new List<string>();
     public string pickedChoiceID = "";
+
+    public StageSnapshot stage = new StageSnapshot();       // What was on stage behind this screen
 
     public bool HasChoices => shownChoiceIDs != null && shownChoiceIDs.Count > 0;
     public bool HasPick => !string.IsNullOrEmpty(pickedChoiceID);

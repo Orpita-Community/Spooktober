@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Spooktober::Story_VariableSO
   saveID: 5439283e73fb2504099976ab99456309
   defaultValue: 0
-  description: 1 once the opening scene has played (stops it replaying).
+  description: 1 once the prologue has started (stops the Shop scene replaying it).

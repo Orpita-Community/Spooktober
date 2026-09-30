@@ -1,0 +1,624 @@
+fileFormatVersion: 2
+guid: 40f4f618a5ee76c4d875b39e91f2a56a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6319052431292634633
+    second: uncle alex_0
+  - first:
+      213: 6418280632870284758
+    second: uncle alex_1
+  - first:
+      213: -3738403631445462716
+    second: uncle alex_2
+  - first:
+      213: -2455969726117845726
+    second: uncle alex_3
+  - first:
+      213: 1421718920820794809
+    second: uncle alex_4
+  - first:
+      213: 8530945583409610715
+    second: uncle alex_5
+  - first:
+      213: -3350719181173992991
+    second: uncle alex_6
+  - first:
+      213: 8091573592462472105
+    second: uncle alex_7
+  - first:
+      213: -9036721522495441765
+    second: uncle alex_8
+  - first:
+      213: -5716166769833485119
+    second: uncle alex_9
+  - first:
+      213: 4540089231953398568
+    second: uncle alex_10
+  - first:
+      213: -5304099396723260485
+    second: uncle alex_11
+  - first:
+      213: 273192065491503272
+    second: uncle alex_12
+  - first:
+      213: 5425458403887796123
+    second: uncle alex_13
+  - first:
+      213: 8073777110665474637
+    second: uncle alex_14
+  - first:
+      213: -7461805736200068635
+    second: uncle alex_15
+  - first:
+      213: -1151958234747937096
+    second: uncle alex_16
+  - first:
+      213: 204675329815850833
+    second: uncle alex_17
+  - first:
+      213: 6096775039943933687
+    second: uncle alex_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: uncle alex_0
+      rect:
+        serializedVersion: 2
+        x: 2558
+        y: 4565
+        width: 34
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f9ebb32b473e48a0800000000000000
+      internalID: -6319052431292634633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_1
+      rect:
+        serializedVersion: 2
+        x: 2629
+        y: 4421
+        width: 63
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dda007ea30521950800000000000000
+      internalID: 6418280632870284758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_2
+      rect:
+        serializedVersion: 2
+        x: 4533
+        y: 4458
+        width: 50
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 441b9a044b58e1cc0800000000000000
+      internalID: -3738403631445462716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_3
+      rect:
+        serializedVersion: 2
+        x: 699
+        y: 4310
+        width: 145
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 225e1afdb84aaedd0800000000000000
+      internalID: -2455969726117845726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_4
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 4352
+        width: 113
+        height: 172
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b5a9fd63d5fab310800000000000000
+      internalID: 1421718920820794809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_5
+      rect:
+        serializedVersion: 2
+        x: 971
+        y: 4376
+        width: 98
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdf31592fc1046670800000000000000
+      internalID: 8530945583409610715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_6
+      rect:
+        serializedVersion: 2
+        x: 2293
+        y: 4404
+        width: 126
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e1590858aadf71d0800000000000000
+      internalID: -3350719181173992991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_7
+      rect:
+        serializedVersion: 2
+        x: 2467
+        y: 4437
+        width: 122
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a338a4bf4b0b4070800000000000000
+      internalID: 8091573592462472105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_8
+      rect:
+        serializedVersion: 2
+        x: 2590
+        y: 4450
+        width: 45
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b94388567ad179280800000000000000
+      internalID: -9036721522495441765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_9
+      rect:
+        serializedVersion: 2
+        x: 2710
+        y: 4444
+        width: 81
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ccde2fbb981ca0b0800000000000000
+      internalID: -5716166769833485119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_10
+      rect:
+        serializedVersion: 2
+        x: 3950
+        y: 4334
+        width: 118
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82b882f1a13a10f30800000000000000
+      internalID: 4540089231953398568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_11
+      rect:
+        serializedVersion: 2
+        x: 4156
+        y: 4396
+        width: 82
+        height: 115
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb342f473bd0466b0800000000000000
+      internalID: -5304099396723260485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_12
+      rect:
+        serializedVersion: 2
+        x: 4253
+        y: 4397
+        width: 153
+        height: 117
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a883137cb29ac300800000000000000
+      internalID: 273192065491503272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_13
+      rect:
+        serializedVersion: 2
+        x: 4438
+        y: 4450
+        width: 98
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9fc36b4ca91b4b40800000000000000
+      internalID: 5425458403887796123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_14
+      rect:
+        serializedVersion: 2
+        x: 4100
+        y: 4373
+        width: 62
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4235e46181db0070800000000000000
+      internalID: 8073777110665474637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_15
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 555
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e1a2de9737527890800000000000000
+      internalID: -7461805736200068635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_16
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 445
+        width: 1650
+        height: 3790
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8be53cdb61c6300f0800000000000000
+      internalID: -1151958234747937096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_17
+      rect:
+        serializedVersion: 2
+        x: 1822
+        y: 397
+        width: 1693
+        height: 3888
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15fa5f7c02727d200800000000000000
+      internalID: 204675329815850833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uncle alex_18
+      rect:
+        serializedVersion: 2
+        x: 3522
+        y: 369
+        width: 1715
+        height: 3938
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fe7353c8981c9450800000000000000
+      internalID: 6096775039943933687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      uncle alex_0: -6319052431292634633
+      uncle alex_1: 6418280632870284758
+      uncle alex_10: 4540089231953398568
+      uncle alex_11: -5304099396723260485
+      uncle alex_12: 273192065491503272
+      uncle alex_13: 5425458403887796123
+      uncle alex_14: 8073777110665474637
+      uncle alex_15: -7461805736200068635
+      uncle alex_16: -1151958234747937096
+      uncle alex_17: 204675329815850833
+      uncle alex_18: 6096775039943933687
+      uncle alex_2: -3738403631445462716
+      uncle alex_3: -2455969726117845726
+      uncle alex_4: 1421718920820794809
+      uncle alex_5: 8530945583409610715
+      uncle alex_6: -3350719181173992991
+      uncle alex_7: 8091573592462472105
+      uncle alex_8: -9036721522495441765
+      uncle alex_9: -5716166769833485119
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

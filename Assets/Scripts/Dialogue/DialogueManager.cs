@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Runs dialogue: owns the runner and history, handles input, rollback, skip and auto, and saves/restores the dialogue.
+// It also draws the stage behind the box, plays chapter title cards and line transitions, and ends the game.
 [DefaultExecutionOrder(-100)]
 public class DialogueManager : MonoBehaviour, ISaveable
 {
@@ -23,6 +24,10 @@ public class DialogueManager : MonoBehaviour, ISaveable
     [Tooltip("...plus this much per character, so longer lines stay up longer.")]
     [SerializeField] private float autoDelayPerCharacter = .03f;
 
+    [Header("Stage Transitions")]
+    [SerializeField] private Color flashColor = new Color(1f, 1f, 1f, .9f);
+    [SerializeField] private float flashDuration = .6f;
+
     private DialogueRunner runner;
     private DialogueHistory history;
     private DialogueSaveState pendingResume;
@@ -33,6 +38,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
     private float skipTimer;
     private float autoTimer;
     private bool pendingAutosave;
+    private bool inTransition; // A title card or fade is between the player and the next screen
     private int inputBlockedUntilFrame = -1;
     private int lastEndFrame = -1;
 
@@ -83,6 +89,8 @@ public class DialogueManager : MonoBehaviour, ISaveable
     }
 
     public Dialogue_ConversationSO FindConversation(string saveID) => database != null ? database.GetConversation(saveID) : null;
+    public Dialogue_SpeakerSO FindSpeaker(string saveID) => database != null ? database.GetSpeaker(saveID) : null;
+    public Stage_ImageSO FindImage(string saveID) => database != null ? database.GetImage(saveID) : null;
 
     public bool StartDialogue(Dialogue_ConversationSO conversation)
     {
@@ -93,10 +101,12 @@ public class DialogueManager : MonoBehaviour, ISaveable
         if (Time.frameCount == lastEndFrame)
             return false;
 
+        string chapterBefore = storyManager.State.ChapterID;
+
         if (!runner.Start(conversation))
             return false;
 
-        BeginPresentation(true);
+        BeginPresentation(true, chapterBefore);
         return true;
     }
 
@@ -143,7 +153,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
         if (history.IsRollingBack)
             RenderHistoryEntry(history.ViewIndex);
         else
-            RenderPresent(false);
+            RenderPresent(false, false);
     }
 
     public void ToggleAuto()
@@ -307,10 +317,11 @@ public class DialogueManager : MonoBehaviour, ISaveable
         autoTimer = 0f;
 
         HistoryEntry before = history.Present;
+        string chapterBefore = storyManager.State.ChapterID;
         runner.Advance();
 
         if (runner.IsActive)
-            RenderPresent(HasNewText(before));
+            PresentNew(before, chapterBefore);
     }
 
     // Choices that attach to the text already on screen (e.g. under a reaction) shouldn't type that text out again
@@ -326,6 +337,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
             return;
 
         HistoryEntry before = history.Present;
+        string chapterBefore = storyManager.State.ChapterID;
 
         if (!runner.Choose(choiceID))
             return;
@@ -335,34 +347,128 @@ public class DialogueManager : MonoBehaviour, ISaveable
         autoTimer = 0f;
 
         if (runner.IsActive)
-            RenderPresent(HasNewText(before));
+            PresentNew(before, chapterBefore);
     }
 
-    private void BeginPresentation(bool typeIn)
+    // live = the dialogue just started (title cards and transitions play). Otherwise it was restored from a save.
+    private void BeginPresentation(bool live, string chapterBefore)
     {
         skipMode = false;
         skipTimer = 0f;
         autoTimer = 0f;
         BlockInputThisFrame();
 
-        dialogueUI.Show();
+        ui.stage.Show();
         dialogueUI.SetModeIndicators(autoMode, false);
         OnDialogueStarted?.Invoke();
 
-        RenderPresent(typeIn);
+        if (live)
+            PresentNew(null, chapterBefore);
+        else
+            RenderPresent(false, false);
     }
 
-    private void RenderPresent(bool typeIn)
+    // Shows the screen the runner just moved to. Entering a new chapter plays its title card first,
+    // and a line can ask to fade through black or flash.
+    private void PresentNew(HistoryEntry before, string chapterBefore)
     {
-        int presentIndex = history.Entries.Count - 1;
-        DialogueScreen screen = DialogueScreen.Build(history.Entries, presentIndex, true, FindConversation, storyManager.State);
+        bool typeIn = HasNewText(before);
+        bool skipping = IsSkipping;
+        TitleCard card = NewChapterCard(chapterBefore);
+        StageTransition transition = NewLineTransition(before);
+
+        // Skipping jumps straight through fades, but act cards still show (briefly) so the player knows where they are
+        if (card != null || (transition == StageTransition.Fade && !skipping))
+        {
+            PresentThroughBlack(card, typeIn, skipping, hideBoxNow: before == null);
+            return;
+        }
+
+        RenderPresent(typeIn, true);
+
+        if (transition == StageTransition.Flash && !skipping)
+            ui.fadeScreen.Flash(flashColor, flashDuration);
+    }
+
+    private void PresentThroughBlack(TitleCard card, bool typeIn, bool quick, bool hideBoxNow)
+    {
+        inTransition = true;
+
+        // A dialogue that just started has nothing to show yet, so no empty box during the fade out.
+        // Otherwise the previous screen stays up until the screen is black.
+        if (hideBoxNow)
+            dialogueUI.Hide();
+
+        gameManager.FadeThrough(
+            whileBlack: () =>
+            {
+                if (!runner.IsActive)
+                    return;
+
+                dialogueUI.Hide();
+                RenderStage(PresentScreen(), false);
+            },
+            card, quick,
+            onRevealed: () =>
+            {
+                inTransition = false;
+
+                if (!runner.IsActive)
+                    return;
+
+                RenderPresent(typeIn, false);
+                BlockInputThisFrame();
+            });
+    }
+
+    private TitleCard NewChapterCard(string chapterBefore)
+    {
+        string chapterID = storyManager.State.ChapterID;
+
+        if (chapterID == chapterBefore || database == null)
+            return null;
+
+        Story_ChapterSO chapter = database.GetChapter(chapterID);
+        return chapter != null && chapter.titleCard != null && !chapter.titleCard.IsEmpty ? chapter.titleCard : null;
+    }
+
+    // The transition of the line that just appeared (choices and reactions have none)
+    private StageTransition NewLineTransition(HistoryEntry before)
+    {
+        HistoryEntry present = history.Present;
+
+        if (present == null || present == before || present.type != HistoryEntryType.Line)
+            return StageTransition.None;
+
+        Dialogue_ConversationSO conversation = FindConversation(present.conversationID);
+        DialogueLine line = conversation != null ? conversation.GetLine(present.itemID) : null;
+        return line != null && line.stage != null ? line.stage.transition : StageTransition.None;
+    }
+
+    private DialogueScreen PresentScreen() =>
+        DialogueScreen.Build(history.Entries, history.Entries.Count - 1, true, FindConversation, storyManager.State);
+
+    private void RenderPresent(bool typeIn, bool animateStage)
+    {
+        DialogueScreen screen = PresentScreen();
+        RenderStage(screen, animateStage);
+
+        dialogueUI.Show();
         dialogueUI.Render(screen, typeIn && !IsSkipping, OnChoiceSelected);
     }
 
+    // Rollback shows the stage exactly as it was, without animating
     private void RenderHistoryEntry(int index)
     {
         DialogueScreen screen = DialogueScreen.Build(history.Entries, index, false, FindConversation, storyManager.State);
+        RenderStage(screen, false);
         dialogueUI.Render(screen, false, null);
+    }
+
+    private void RenderStage(DialogueScreen screen, bool animate)
+    {
+        StageScreen stage = StageScreen.Build(screen.stage, screen.speaker, FindSpeaker, FindImage);
+        ui.stage.Render(stage, animate && !IsSkipping);
     }
 
     private void ReturnToPresent()
@@ -371,12 +477,13 @@ public class DialogueManager : MonoBehaviour, ISaveable
             return;
 
         history.ExitRollback();
-        RenderPresent(false);
+        RenderPresent(false, false);
     }
 
     private bool CanTakeInput()
     {
         return IsActive
+            && !inTransition
             && !ui.IsModalOpen
             && !gameManager.IsTransitioning
             && !saveManager.IsRestoring
@@ -397,9 +504,19 @@ public class DialogueManager : MonoBehaviour, ISaveable
         skipMode = false;
         autoMode = false;
         pendingAutosave = false;
+        inTransition = false;
 
         dialogueUI.Hide();
+
+        // When the story is over, the last picture stays up and fades out under the end card
+        Dialogue_ConversationSO gameEnding = runner.GameEnding;
+        if (gameEnding == null)
+            ui.stage.Hide();
+
         OnDialogueEnded?.Invoke();
+
+        if (gameEnding != null)
+            gameManager.EndGame(gameEnding.endCard);
     }
 
     private void HandleMenusChanged()
@@ -443,6 +560,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
     {
         pendingResume = null;
         pendingAutosave = false;
+        inTransition = false;
         history.ExitRollback();
 
         if (runner.IsActive)
@@ -479,7 +597,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
             return;
 
         if (runner.Resume(state))
-            BeginPresentation(false);
+            BeginPresentation(false, null);
     }
 
     #endregion

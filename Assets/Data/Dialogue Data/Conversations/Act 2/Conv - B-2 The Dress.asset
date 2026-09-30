@@ -1,0 +1,403 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - B-2 The Dress
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: 63db3dc90445c8445b468ea0c5204977
+  chapter: {fileID: 0}
+  autosaveOnStart: 1
+  lines:
+  - speaker: {fileID: 0}
+    expression: 0
+    text: BOX TWO.
+    style: 1
+    effects: []
+    stage:
+      transition: 1
+      background: {fileID: 11400000, guid: 71876c1038b78244aba2b4135c9b4de2, type: 2}
+      characters: 2
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Which layer goes first?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+        slot: 0
+        expression: 1
+        flip: 1
+      - character: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+        slot: 1
+        expression: 11
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l02
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: The one leaving or the one coming?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: The dress.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l04
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: I know.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Good.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l06
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Why don't you use new fabric?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l07
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Because I know where this tear lives.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l08
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: It's a tear.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l09
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Exactly.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l10
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Alexander starts sewing a star-shaped patch over it.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l11
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: You're making it more obvious.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l12
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Yes.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l13
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Why?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l14
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: Because fixing something doesn't mean pretending it was never broken.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l15
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: That's weird.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l16
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Probably.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l17
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: A mask that hides everything isn't protecting you.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l18
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: It's erasing you.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l19
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Who wears this?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l20
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: A girl who's been coming here for three years.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l21
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Why?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l22
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: She doesn't like people looking at her.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l23
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Then why make it pretty?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l24
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Alexander smiles.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+        slot: 0
+        expression: 1
+        flip: 1
+      - character: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+        slot: 1
+        expression: 11
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l25
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Maybe one day she'll look at herself.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l26
+  endType: 1
+  choices:
+  - text: Leave the patch. It belongs there.
+    requirements: []
+    showWhenLocked: 0
+    effects:
+    - variable: {fileID: 11400000, guid: ea36ca2800b75c246925d1faa2afac28, type: 2}
+      operation: 1
+      value: 2
+    reactionSpeaker: {fileID: 0}
+    reactionExpression: 0
+    reactionLine: 
+    next: {fileID: 11400000, guid: 993bcb16ac9eb7846888a36aefab3323, type: 2}
+    id: c01
+  - text: Use new fabric. It'll be faster.
+    requirements: []
+    showWhenLocked: 0
+    effects:
+    - variable: {fileID: 11400000, guid: ef64d149c1a38a04bbc1893a157619af, type: 2}
+      operation: 1
+      value: 3
+    reactionSpeaker: {fileID: 0}
+    reactionExpression: 0
+    reactionLine: 
+    next: {fileID: 11400000, guid: ae63fb5418eb65e4498410c1d0da6be9, type: 2}
+    id: c02
+  branches: []
+  defaultNext: {fileID: 0}
+  endCard:
+    title: THE END
+    subtitle: 

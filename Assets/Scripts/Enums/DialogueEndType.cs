@@ -3,5 +3,6 @@ public enum DialogueEndType
 {
     End = 0,     // Close the dialogue after the last line
     Choices = 1, // Show the choices under the last line
-    Jump = 2     // Continue to the first branch whose conditions pass, or the default next conversation
+    Jump = 2,    // Continue to the first branch whose conditions pass, or the default next conversation
+    EndGame = 3  // Close the dialogue, show the conversation's end card, then return to the main menu
 }

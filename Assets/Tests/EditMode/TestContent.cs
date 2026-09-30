@@ -7,6 +7,8 @@ public class TestContent : IDisposable
 {
     private readonly List<UnityEngine.Object> created = new List<UnityEngine.Object>();
     private readonly Dictionary<string, Dialogue_ConversationSO> conversations = new Dictionary<string, Dialogue_ConversationSO>();
+    private readonly Dictionary<string, Dialogue_SpeakerSO> speakers = new Dictionary<string, Dialogue_SpeakerSO>();
+    private readonly Dictionary<string, Stage_ImageSO> images = new Dictionary<string, Stage_ImageSO>();
 
     public Func<string, Dialogue_ConversationSO> Resolver => Find;
 
@@ -18,6 +20,9 @@ public class TestContent : IDisposable
         conversations.TryGetValue(saveID, out Dialogue_ConversationSO conversation);
         return conversation;
     }
+
+    public Dialogue_SpeakerSO FindSpeaker(string saveID) => saveID != null && speakers.TryGetValue(saveID, out Dialogue_SpeakerSO speaker) ? speaker : null;
+    public Stage_ImageSO FindImage(string saveID) => saveID != null && images.TryGetValue(saveID, out Stage_ImageSO image) ? image : null;
 
     public Story_VariableSO Variable(string saveID, int defaultValue = 0)
     {
@@ -45,8 +50,24 @@ public class TestContent : IDisposable
         foreach (PortraitExpression expression in expressions)
             speaker.portraits.Add(new SpeakerPortrait { expression = expression, sprite = MakeSprite($"{name} {expression}") });
 
+        speakers[speaker.saveID] = speaker;
         return speaker;
     }
+
+    public Stage_ImageSO Image(string saveID)
+    {
+        Stage_ImageSO image = Create<Stage_ImageSO>(saveID);
+        image.saveID = saveID;
+        image.sprite = MakeSprite(saveID);
+        images[saveID] = image;
+        return image;
+    }
+
+    public static StageCharacter On(Dialogue_SpeakerSO character, StageSlot slot, PortraitExpression expression = PortraitExpression.Normal) =>
+        new StageCharacter { character = character, slot = slot, expression = expression };
+
+    public static StageDirection Cast(params StageCharacter[] cast) =>
+        new StageDirection { characters = StageChange.Set, cast = new List<StageCharacter>(cast) };
 
     public Dialogue_ConversationSO Conversation(string saveID, DialogueEndType endType = DialogueEndType.End)
     {
@@ -122,5 +143,7 @@ public class TestContent : IDisposable
 
         created.Clear();
         conversations.Clear();
+        speakers.Clear();
+        images.Clear();
     }
 }

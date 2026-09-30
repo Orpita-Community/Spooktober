@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: Chapter - Act 2
   m_EditorClassIdentifier: Spooktober::Story_ChapterSO
   saveID: b641b0ff405338d418f779ac70f98420
-  label: "Act 2 \u2014 11:47 PM"
+  label: "Act 2 \u2014 The Three Boxes"
+  titleCard:
+    title: ACT 2
+    subtitle: The Three Boxes

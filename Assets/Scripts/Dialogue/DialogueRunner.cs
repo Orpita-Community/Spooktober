@@ -4,6 +4,7 @@ using UnityEngine;
 
 // The dialogue flow, with no UI. This is the only place story effects, chapter changes and history entries happen,
 // so rollback and loading (which only re-display history) can never apply an effect twice.
+// Each history entry also stores the stage behind it (see StageSnapshot), worked out here from the lines' stage directions.
 public class DialogueRunner
 {
     public const int MaxJumpsWithoutContent = 64;
@@ -17,9 +18,13 @@ public class DialogueRunner
     public Dialogue_ConversationSO Conversation { get; private set; }
     public int LineIndex { get; private set; } = -1;
     public DialogueChoice PendingReaction { get; private set; }
+    public Dialogue_ConversationSO GameEnding { get; private set; } // The End Game conversation that just ended the dialogue, if any
 
     public bool IsActive => Phase != DialoguePhase.Inactive;
     public DialogueLine CurrentLine => Conversation != null ? Conversation.GetLine(LineIndex) : null;
+
+    // The stage on screen right now. A new session starts with an empty stage.
+    private StageSnapshot CurrentStage => history.Present?.stage ?? new StageSnapshot();
 
     public event Action<Dialogue_ConversationSO> ConversationEntered; // After its first screen is up (not raised when resuming)
     public event Action Ended;
@@ -36,6 +41,7 @@ public class DialogueRunner
         if (conversation == null || IsActive)
             return false;
 
+        GameEnding = null;
         history.BeginSession();
         Enter(conversation, 0);
         return IsActive;
@@ -87,7 +93,8 @@ public class DialogueRunner
             {
                 type = HistoryEntryType.Reaction,
                 conversationID = Conversation.saveID,
-                itemID = choice.id
+                itemID = choice.id,
+                stage = StageAfterReaction(choice)
             });
         }
         else
@@ -147,6 +154,7 @@ public class DialogueRunner
         }
 
         resuming = true;
+        GameEnding = null;
         history.ResumeSession(state.session);
         Conversation = conversation;
         PendingReaction = null;
@@ -185,7 +193,7 @@ public class DialogueRunner
 
         LineIndex = index;
         Phase = DialoguePhase.Line;
-        EnsurePresent(HistoryEntryType.Line, Conversation.lines[index].id);
+        EnsurePresent(HistoryEntryType.Line, Conversation.lines[index]);
 
         if (index == Conversation.LastLineIndex && Conversation.endType == DialogueEndType.Choices)
             ResumeChoices();
@@ -203,7 +211,7 @@ public class DialogueRunner
         }
 
         if (LineIndex >= 0)
-            EnsurePresent(HistoryEntryType.Line, Conversation.lines[LineIndex].id);
+            EnsurePresent(HistoryEntryType.Line, Conversation.lines[LineIndex]);
 
         Phase = DialoguePhase.Line;
 
@@ -227,18 +235,30 @@ public class DialogueRunner
         LineIndex = Conversation.LastLineIndex;
         PendingReaction = choice;
         Phase = DialoguePhase.Reaction;
-        EnsurePresent(HistoryEntryType.Reaction, choice.id);
+        EnsurePresent(HistoryEntryType.Reaction, choice.id, StageAfterReaction(choice));
     }
 
-    // Keeps "the present is the last history entry" true after a load
-    private void EnsurePresent(HistoryEntryType type, string itemID)
+    private void EnsurePresent(HistoryEntryType type, DialogueLine line) =>
+        EnsurePresent(type, line != null ? line.id : "", StageAfterLine(line));
+
+    // Keeps "the present is the last history entry" true after a load. A saved entry keeps its saved stage.
+    private void EnsurePresent(HistoryEntryType type, string itemID, StageSnapshot stageIfAdded)
     {
         HistoryEntry present = history.Present;
 
         if (present != null && present.type == type && present.conversationID == Conversation.saveID && present.itemID == itemID)
             return;
 
-        history.Append(new HistoryEntry { type = type, conversationID = Conversation.saveID, itemID = itemID });
+        history.Append(new HistoryEntry { type = type, conversationID = Conversation.saveID, itemID = itemID, stage = stageIfAdded });
+    }
+
+    private StageSnapshot StageAfterLine(DialogueLine line) =>
+        line != null ? CurrentStage.With(line.stage, line.speaker, line.expression) : CurrentStage.Clone();
+
+    private StageSnapshot StageAfterReaction(DialogueChoice choice)
+    {
+        Dialogue_SpeakerSO speaker = choice.reactionSpeaker != null ? choice.reactionSpeaker : Conversation.LastLineSpeaker;
+        return CurrentStage.With(null, speaker, choice.reactionExpression);
     }
 
     private void Enter(Dialogue_ConversationSO conversation, int jumps)
@@ -287,7 +307,8 @@ public class DialogueRunner
         {
             type = HistoryEntryType.Line,
             conversationID = Conversation.saveID,
-            itemID = line != null ? line.id : ""
+            itemID = line != null ? line.id : "",
+            stage = StageAfterLine(line) // Worked out before Append changes what the present entry is
         });
 
         // The last line and its choices are one screen
@@ -309,6 +330,11 @@ public class DialogueRunner
 
             case DialogueEndType.Jump:
                 Enter(ResolveJump(Conversation), jumps + 1);
+                break;
+
+            case DialogueEndType.EndGame:
+                GameEnding = Conversation; // Read by whoever handles Ended
+                Stop();
                 break;
 
             default:
@@ -358,7 +384,7 @@ public class DialogueRunner
 
         HistoryEntry target = canAttach
             ? present
-            : history.Append(new HistoryEntry { type = HistoryEntryType.ChoiceOnly, conversationID = Conversation.saveID });
+            : history.Append(new HistoryEntry { type = HistoryEntryType.ChoiceOnly, conversationID = Conversation.saveID, stage = CurrentStage.Clone() });
 
         target.choicesConversationID = Conversation.saveID;
         target.shownChoiceIDs = visible;

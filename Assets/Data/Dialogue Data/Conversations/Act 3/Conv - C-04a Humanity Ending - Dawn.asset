@@ -1,0 +1,276 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - C-04a Humanity Ending - Dawn
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: 5723427ab9185b341bd5d69420b4930d
+  chapter: {fileID: 0}
+  autosaveOnStart: 0
+  lines:
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The rain has stopped.
+    style: 0
+    effects: []
+    stage:
+      transition: 1
+      background: {fileID: 11400000, guid: 00e99d0717a86744595d59216f2f3824, type: 2}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+        slot: 1
+        expression: 0
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The shop is still standing.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l02
+  - speaker: {fileID: 0}
+    expression: 0
+    text: For the first time, it doesn't feel like a prison.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Adam picks up the final notice.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 1
+      closeUpImage: {fileID: 11400000, guid: d0ed164da1d777943bb97e013ba8a25c, type: 2}
+    id: l04
+  - speaker: {fileID: 0}
+    expression: 0
+    text: He folds it.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Not tears it.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l06
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Not throws it away.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l07
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Just folds it.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l08
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 1
+    text: I still don't know what I'm going to do with this place.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 2
+      closeUpImage: {fileID: 0}
+    id: l09
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 1
+    text: But I know I'm not going to spend another five years hating him for it.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l10
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Adam steps outside.
+    style: 0
+    effects: []
+    stage:
+      transition: 1
+      background: {fileID: 11400000, guid: 528ae1036c623d14da7111a02a9d0400, type: 2}
+      characters: 2
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l11
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The rain has stopped.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l12
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The broken neon flickers once.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l13
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The sign stays on.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l14
+  - speaker: {fileID: 0}
+    expression: 0
+    text: He never found out where Alexander went.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l15
+  - speaker: {fileID: 0}
+    expression: 0
+    text: But for the first time, Adam stopped asking why he left.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l16
+  - speaker: {fileID: 0}
+    expression: 0
+    text: He started asking what he had left behind.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l17
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Some things don't need to be solved in one night.
+    style: 1
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l18
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Some things only need to be faced.
+    style: 1
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l19
+  endType: 3
+  choices: []
+  branches: []
+  defaultNext: {fileID: 0}
+  endCard:
+    title: THE END
+    subtitle: 

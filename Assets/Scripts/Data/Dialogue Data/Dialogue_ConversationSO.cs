@@ -24,6 +24,8 @@ public class Dialogue_ConversationSO : ScriptableObject
     public List<DialogueBranch> branches = new List<DialogueBranch>();
     [Tooltip("Used when End Type is Jump and no branch passes. Empty = end the dialogue.")]
     public Dialogue_ConversationSO defaultNext;
+    [Tooltip("Used when End Type is End Game: shown on a black screen before returning to the main menu.")]
+    public TitleCard endCard = new TitleCard { title = "THE END" };
 
     public int LastLineIndex => lines.Count - 1;
     public Dialogue_SpeakerSO LastLineSpeaker => lines.Count > 0 ? lines[lines.Count - 1]?.speaker : null;

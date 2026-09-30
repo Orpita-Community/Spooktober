@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Where the story is, e.g. "Act 1 — 10:30 PM". Shown on save slots.
+// Where the story is, e.g. "Act 1 — The Man in the Rain". Shown on save slots.
 [CreateAssetMenu(menuName = "Spooktober/Story Data/New Chapter", fileName = "Chapter - ")]
 public class Story_ChapterSO : ScriptableObject
 {
@@ -8,6 +8,8 @@ public class Story_ChapterSO : ScriptableObject
 
     [Header("Chapter Details")]
     [TextArea] public string label;
+    [Tooltip("Shown on a black screen when the story enters this chapter (not when loading a save). Leave empty for no card.")]
+    public TitleCard titleCard = new TitleCard();
 
     private void OnValidate()
     {

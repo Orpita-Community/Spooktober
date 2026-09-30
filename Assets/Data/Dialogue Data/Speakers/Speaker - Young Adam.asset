@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2866b19cc9ee948998eb113963d710, type: 3}
+  m_Name: Speaker - Young Adam
+  m_EditorClassIdentifier: Spooktober::Dialogue_SpeakerSO
+  saveID: 2a43c1c0eff9fed4081428b339fe3cf1
+  speakerName: Young Adam
+  nameColor: {r: 0.52, g: 0.86, b: 0.8, a: 1}
+  defaultPortrait: {fileID: 5120826438777106515, guid: 12ed47662312d8b48aea92bd5020f4ad, type: 3}
+  portraits:
+  - expression: 0
+    sprite: {fileID: 5120826438777106515, guid: 12ed47662312d8b48aea92bd5020f4ad, type: 3}
+  stageHeight: 1180
+  stageOffsetY: -400

@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-// Scene flow (New Game, Continue, main menu), fades, play time and the System input map (Pause, Quick Save/Load).
+// Scene flow (New Game, Continue, main menu), fades and title cards, the end of the game,
+// play time and the System input map (Pause, Quick Save/Load).
 [DefaultExecutionOrder(-100)]
 public class GameManager : MonoBehaviour, ISaveable
 {
@@ -16,6 +18,8 @@ public class GameManager : MonoBehaviour, ISaveable
 
     [Header("Transitions")]
     [SerializeField] private float fadeDuration = .5f;
+    [Tooltip("The slower fade to black when the story ends, before the end card.")]
+    [SerializeField] private float endingFadeDuration = 1.5f;
 
     [Header("References")]
     [SerializeField] private UI ui;
@@ -23,10 +27,21 @@ public class GameManager : MonoBehaviour, ISaveable
     [SerializeField] private StoryManager storyManager;
     [SerializeField] private DialogueManager dialogueManager;
 
+    // Work waiting for a black screen: runs under the current transition's black screen, before it fades back in
+    private class Blackout
+    {
+        public Action whileBlack;
+        public TitleCard card;
+        public bool quick;
+        public Action onRevealed;
+    }
+
+    private readonly List<Blackout> pendingBlackouts = new List<Blackout>();
     private Action<Scene> pendingSceneLoaded;
     private InputAction pauseAction;
     private InputAction quickSaveAction;
     private InputAction quickLoadAction;
+    private InputAction advanceAction;
 
     public bool IsTransitioning { get; private set; }
     public bool InMainMenu => SceneManager.GetActiveScene().name == mainMenuScene;
@@ -40,6 +55,7 @@ public class GameManager : MonoBehaviour, ISaveable
         pauseAction = GameInput.Find("System/Pause");
         quickSaveAction = GameInput.Find("System/QuickSave");
         quickLoadAction = GameInput.Find("System/QuickLoad");
+        advanceAction = GameInput.Find("Dialogue/Advance");
     }
 
     private void Start()
@@ -137,6 +153,7 @@ public class GameManager : MonoBehaviour, ISaveable
 
         yield return ui.fadeScreen.FadeOutCo(fadeDuration);
 
+        pendingBlackouts.Clear(); // Anything still waiting belongs to the scene being left
         beforeLoad?.Invoke();
         pendingSceneLoaded = onSceneLoaded;
 
@@ -146,8 +163,73 @@ public class GameManager : MonoBehaviour, ISaveable
 
         yield return null; // Let the new scene's Start() methods run before the player sees it
 
+        // e.g. the opening's title card, requested by the dialogue the new scene just started
+        yield return RevealAfterBlackoutsCo();
+    }
+
+    // Fades to black, runs whileBlack, shows the title card (if any), fades back in, then calls onRevealed.
+    // While another transition (like a scene load) is running, this waits for that one's black screen instead.
+    public void FadeThrough(Action whileBlack, TitleCard card, bool quick, Action onRevealed)
+    {
+        pendingBlackouts.Add(new Blackout { whileBlack = whileBlack, card = card, quick = quick, onRevealed = onRevealed });
+
+        if (!IsTransitioning)
+            StartCoroutine(FadeThroughCo());
+    }
+
+    private IEnumerator FadeThroughCo()
+    {
+        IsTransitioning = true;
+
+        yield return ui.fadeScreen.FadeOutCo(fadeDuration);
+        yield return RevealAfterBlackoutsCo();
+    }
+
+    // Runs everything that asked for a black screen, fades in, and only then says the screen is visible again
+    private IEnumerator RevealAfterBlackoutsCo()
+    {
+        List<Blackout> revealed = new List<Blackout>();
+
+        while (pendingBlackouts.Count > 0)
+        {
+            Blackout blackout = pendingBlackouts[0];
+            pendingBlackouts.RemoveAt(0);
+            revealed.Add(blackout);
+
+            blackout.whileBlack?.Invoke();
+
+            if (blackout.card != null)
+                yield return ui.fadeScreen.TitleCardCo(blackout.card, blackout.quick, () => GameInput.WasPressed(advanceAction));
+        }
+
         yield return ui.fadeScreen.FadeInCo(fadeDuration);
         IsTransitioning = false;
+
+        foreach (Blackout blackout in revealed)
+            blackout.onRevealed?.Invoke();
+    }
+
+    // The story is over: fade out slowly, show the end card, then go back to the main menu
+    public void EndGame(TitleCard endCard)
+    {
+        if (IsTransitioning)
+            return;
+
+        StartCoroutine(EndGameCo(endCard));
+    }
+
+    private IEnumerator EndGameCo(TitleCard endCard)
+    {
+        IsTransitioning = true;
+        ui.CloseAllMenus();
+        Time.timeScale = 1f;
+
+        yield return ui.fadeScreen.FadeOutCo(endingFadeDuration);
+
+        ui.stage.Hide();
+        yield return ui.fadeScreen.TitleCardCo(endCard, false, () => GameInput.WasPressed(advanceAction));
+
+        yield return TransitionCo(mainMenuScene, dialogueManager.EndImmediate, null);
     }
 
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)

@@ -30,8 +30,11 @@ public class DialogueScreen
     public string speakerName = "";
     public Color nameColor = Color.white;
     public Sprite portrait;
+    public bool speakerOnStage;    // The speaker is standing on the stage, so the box doesn't need their portrait
+    public DialogueLineStyle style;
     public string text = "";
     public List<ChoiceView> choices = new List<ChoiceView>();
+    public StageSnapshot stage = new StageSnapshot();
 
     public bool HasChoices => choices.Count > 0;
 
@@ -45,10 +48,12 @@ public class DialogueScreen
 
         HistoryEntry entry = entries[index];
         screen.type = entry.type;
+        screen.stage = entry.stage ?? new StageSnapshot();
 
         // A choices-only screen shows the text that was on screen before it
         HistoryEntry textEntry = entry.type == HistoryEntryType.ChoiceOnly ? FindTextEntry(entries, index) : entry;
         screen.isResolved = textEntry == null || ResolveText(textEntry, findConversation, screen);
+        screen.speakerOnStage = screen.speaker != null && screen.stage.HasActor(screen.speaker.saveID);
 
         if (entry.HasChoices)
             BuildChoices(entry, live, findConversation, story, screen);
@@ -113,6 +118,7 @@ public class DialogueScreen
 
         Dialogue_SpeakerSO speaker = null;
         PortraitExpression expression = PortraitExpression.Normal;
+        DialogueLineStyle style = DialogueLineStyle.Box;
         string text = null;
 
         if (conversation != null && entry.type == HistoryEntryType.Line)
@@ -122,6 +128,7 @@ public class DialogueScreen
             {
                 speaker = line.speaker;
                 expression = line.expression;
+                style = line.style;
                 text = DialogueText.Line(conversation, line);
             }
         }
@@ -146,6 +153,7 @@ public class DialogueScreen
         screen.speakerName = DialogueText.SpeakerName(speaker);
         screen.nameColor = speaker != null ? speaker.nameColor : Color.white;
         screen.portrait = speaker != null ? speaker.GetPortrait(expression) : null;
+        screen.style = style;
         screen.text = text;
         return true;
     }

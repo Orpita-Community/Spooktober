@@ -54,6 +54,35 @@ public class GameDataJsonTests
     }
 
     [Test]
+    public void HistoryKeepsTheStageBehindEachScreen()
+    {
+        GameData data = new GameData();
+        StageSnapshot stage = new StageSnapshot { backgroundID = "bg-shop", closeUpID = "cu-letter" };
+        stage.actors.Add(new StageActor { speakerID = "adam", slot = StageSlot.Left, expression = PortraitExpression.Sad, flip = true });
+        data.history.Add(new HistoryEntry { conversationID = "intro", itemID = "l1", stage = stage });
+
+        GameData loaded = JsonUtility.FromJson<GameData>(JsonUtility.ToJson(data));
+        StageSnapshot loadedStage = loaded.history[0].stage;
+
+        Assert.AreEqual("bg-shop", loadedStage.backgroundID);
+        Assert.AreEqual("cu-letter", loadedStage.closeUpID);
+        Assert.AreEqual(1, loadedStage.actors.Count);
+        Assert.AreEqual(StageSlot.Left, loadedStage.actors[0].slot);
+        Assert.AreEqual(PortraitExpression.Sad, loadedStage.actors[0].expression);
+        Assert.IsTrue(loadedStage.actors[0].flip);
+    }
+
+    [Test]
+    public void EntriesSavedBeforeTheStageExistedLoadWithAnEmptyStage()
+    {
+        GameData loaded = JsonUtility.FromJson<GameData>("{\"history\":[{\"conversationID\":\"intro\",\"itemID\":\"l1\"}]}");
+
+        Assert.IsNotNull(loaded.history[0].stage);
+        Assert.AreEqual("", loaded.history[0].stage.backgroundID);
+        Assert.AreEqual(0, loaded.history[0].stage.actors.Count);
+    }
+
+    [Test]
     public void EmptyJsonStillHasEveryCollection()
     {
         GameData loaded = JsonUtility.FromJson<GameData>("{}");

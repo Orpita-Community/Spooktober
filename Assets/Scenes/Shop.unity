@@ -200,7 +200,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.03, g: 0.02, b: 0.05, a: 1}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -357,7 +357,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &743178810
+--- !u!1 &803459390
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -365,8 +365,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 743178812}
-  - component: {fileID: 743178811}
+  - component: {fileID: 803459392}
+  - component: {fileID: 803459391}
   m_Layer: 0
   m_Name: Intro Trigger
   m_TagString: Untagged
@@ -374,19 +374,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &743178811
+--- !u!114 &803459391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 743178810}
+  m_GameObject: {fileID: 803459390}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6a9883ffedd7a34a955a21908700e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Spooktober::DialogueTrigger
-  conversation: {fileID: 11400000, guid: 6d85940a1ed241c4ab7e6555d5aaf241, type: 2}
+  conversation: {fileID: 11400000, guid: b582280ccbd1adb4ca9a663edda0afa7, type: 2}
   requirements:
   - variable: {fileID: 11400000, guid: 5439283e73fb2504099976ab99456309, type: 2}
     comparison: 0
@@ -398,13 +398,13 @@ MonoBehaviour:
     operation: 0
     value: 1
   playOnStart: 1
---- !u!4 &743178812
+--- !u!4 &803459392
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 743178810}
+  m_GameObject: {fileID: 803459390}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -413,7 +413,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2069347828
+--- !u!1 &2001901914
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -421,8 +421,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2069347830}
-  - component: {fileID: 2069347829}
+  - component: {fileID: 2001901916}
+  - component: {fileID: 2001901915}
   m_Layer: 0
   m_Name: Shop Background
   m_TagString: Untagged
@@ -430,14 +430,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!212 &2069347829
+--- !u!212 &2001901915
 SpriteRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069347828}
+  m_GameObject: {fileID: 2001901914}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -479,28 +479,28 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: e1312a27df6538440a02bb524926dbbe, type: 3}
+  m_Sprite: {fileID: -9126019530251261252, guid: f7f8b04f7aaf1fa4ab23041070bc7b80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.777779, y: 10}
+  m_Size: {x: 19.2, y: 10.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!4 &2069347830
+--- !u!4 &2001901916
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069347828}
+  m_GameObject: {fileID: 2001901914}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9259259, y: 0.9259259, z: 0.9259259}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -511,5 +511,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 2069347830}
-  - {fileID: 743178812}
+  - {fileID: 2001901916}
+  - {fileID: 803459392}

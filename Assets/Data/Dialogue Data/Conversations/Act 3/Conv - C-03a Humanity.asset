@@ -1,0 +1,331 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - C-03a Humanity
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: 6f2e496d380610e4a87815317f0a5021
+  chapter: {fileID: 0}
+  autosaveOnStart: 0
+  lines:
+  - speaker: {fileID: 11400000, guid: edeff9c4d70ab0242b3f6d5bc9c1298c, type: 2}
+    expression: 2
+    text: I'm still angry.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 11400000, guid: edeff9c4d70ab0242b3f6d5bc9c1298c, type: 2}
+    expression: 2
+    text: I think I always will be.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l02
+  - speaker: {fileID: 11400000, guid: edeff9c4d70ab0242b3f6d5bc9c1298c, type: 2}
+    expression: 2
+    text: But I loved him.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 11400000, guid: edeff9c4d70ab0242b3f6d5bc9c1298c, type: 2}
+    expression: 2
+    text: I just didn't know how to say that while I was angry.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l04
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Vance's expression changes slightly.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: edeff9c4d70ab0242b3f6d5bc9c1298c, type: 2}
+        slot: 0
+        expression: 2
+        flip: 0
+      - character: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+        slot: 2
+        expression: 2
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 2
+    text: That's enough.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l06
+  - speaker: {fileID: 11400000, guid: edeff9c4d70ab0242b3f6d5bc9c1298c, type: 2}
+    expression: 2
+    text: Enough for what?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l07
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 2
+    text: For the mask.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l08
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The mask is broken away from Adam.
+    style: 0
+    effects: []
+    stage:
+      transition: 2
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+        slot: 0
+        expression: 5
+        flip: 0
+      - character: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+        slot: 2
+        expression: 2
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l09
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Warm light begins returning to the shop.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 11400000, guid: 00e99d0717a86744595d59216f2f3824, type: 2}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l10
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: My uncle.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l11
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: Where is he?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l12
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 2
+    text: I don't know.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l13
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: You knew him.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l14
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 2
+    text: I knew what he refused.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l15
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: What did he refuse?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l16
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 2
+    text: The same thing you almost accepted.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l17
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: What?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l18
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Vance looks at the signed paper.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l19
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 2
+    text: A way out.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l20
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Silence.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l21
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Vance disappears.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+        slot: 0
+        expression: 0
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l22
+  endType: 2
+  choices: []
+  branches: []
+  defaultNext: {fileID: 11400000, guid: 5723427ab9185b341bd5d69420b4930d, type: 2}
+  endCard:
+    title: THE END
+    subtitle: 

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2866b19cc9ee948998eb113963d710, type: 3}
+  m_Name: Speaker - Alexander
+  m_EditorClassIdentifier: Spooktober::Dialogue_SpeakerSO
+  saveID: 5ff72c6971643b146980da569faf3c4c
+  speakerName: Alexander
+  nameColor: {r: 1, g: 0.74, b: 0.45, a: 1}
+  defaultPortrait: {fileID: -7985125771942218104, guid: 0e7dc69b8604c6c41aafe5357d1b19c6, type: 3}
+  portraits:
+  - expression: 0
+    sprite: {fileID: -7985125771942218104, guid: 0e7dc69b8604c6c41aafe5357d1b19c6, type: 3}
+  - expression: 1
+    sprite: {fileID: 2545258409676882570, guid: 161293e529bca4a4dac28fa6fdfa8b6d, type: 3}
+  - expression: 2
+    sprite: {fileID: -3894500411395435449, guid: b454edcd6f1b33840b76a98ddc51b4e9, type: 3}
+  stageHeight: 1640
+  stageOffsetY: -632

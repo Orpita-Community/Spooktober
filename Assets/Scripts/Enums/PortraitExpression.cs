@@ -8,5 +8,9 @@ public enum PortraitExpression
     Scared = 4,
     Shocked = 5,
     Smirk = 6,
-    Worried = 7
+    Worried = 7,
+    Bitter = 8,
+    Wary = 9,
+    Confused = 10,
+    Curious = 11
 }

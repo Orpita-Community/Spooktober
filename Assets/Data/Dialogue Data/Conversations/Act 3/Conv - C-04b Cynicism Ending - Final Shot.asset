@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - C-04b Cynicism Ending - Final Shot
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: d7d107972a2580148b1e9bd432306ea3
+  chapter: {fileID: 0}
+  autosaveOnStart: 0
+  lines:
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The shop is silent.
+    style: 0
+    effects: []
+    stage:
+      transition: 1
+      background: {fileID: 11400000, guid: a82550629572aa84eb18ace72d25bef1, type: 2}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: edeff9c4d70ab0242b3f6d5bc9c1298c, type: 2}
+        slot: 1
+        expression: 0
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The final notice is still on the counter.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l02
+  - speaker: {fileID: 0}
+    expression: 0
+    text: The clock keeps moving toward nine.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Adam looks into the mirror.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l04
+  - speaker: {fileID: 0}
+    expression: 0
+    text: His reflection doesn't look away.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Some doors don't close when you leave.
+    style: 1
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l06
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Sometimes they simply wait for someone else to walk through.
+    style: 1
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l07
+  endType: 3
+  choices: []
+  branches: []
+  defaultNext: {fileID: 0}
+  endCard:
+    title: THE END
+    subtitle: 

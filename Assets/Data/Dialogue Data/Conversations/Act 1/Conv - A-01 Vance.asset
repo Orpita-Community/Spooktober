@@ -1,0 +1,213 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - A-01 Vance
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: 0443d66f971a6804ea32801708480f11
+  chapter: {fileID: 11400000, guid: 003fbbcc9207df9499673ad4849480f7, type: 2}
+  autosaveOnStart: 1
+  lines:
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Vance is standing inside the shop.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 11400000, guid: 3c66341370e364e4ab486c20582bd325, type: 2}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+        slot: 0
+        expression: 0
+        flip: 0
+      - character: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+        slot: 2
+        expression: 0
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 0}
+    expression: 0
+    text: His coat is soaked.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l02
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Half his face remains in shadow.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: We're closed.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l04
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: Can't you read the sign?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: The door was locked.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l06
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: I know.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l07
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: I noticed.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l08
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: Then how did you get in?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l09
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: That's a good question.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l10
+  - speaker: {fileID: 11400000, guid: e4e3a731f62a8fa46b2ecd1b5e15ca59, type: 2}
+    expression: 0
+    text: Are you going to answer it?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l11
+  - speaker: {fileID: 11400000, guid: e97ac13d3e46c134e982a04a88346827, type: 2}
+    expression: 0
+    text: No.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l12
+  endType: 1
+  choices:
+  - text: Get out. Now. Before I call security.
+    requirements: []
+    showWhenLocked: 0
+    effects:
+    - variable: {fileID: 11400000, guid: ef64d149c1a38a04bbc1893a157619af, type: 2}
+      operation: 1
+      value: 3
+    reactionSpeaker: {fileID: 0}
+    reactionExpression: 0
+    reactionLine: 
+    next: {fileID: 11400000, guid: bb3694d339e73c647950337d7c074c8a, type: 2}
+    id: c01
+  - text: Look, we really are closed. Could you come back tomorrow?
+    requirements: []
+    showWhenLocked: 0
+    effects:
+    - variable: {fileID: 11400000, guid: ea36ca2800b75c246925d1faa2afac28, type: 2}
+      operation: 1
+      value: 2
+    reactionSpeaker: {fileID: 0}
+    reactionExpression: 0
+    reactionLine: 
+    next: {fileID: 11400000, guid: 7180fe75c779a004aa44dab3c2b246e9, type: 2}
+    id: c02
+  branches: []
+  defaultNext: {fileID: 0}
+  endCard:
+    title: THE END
+    subtitle: 

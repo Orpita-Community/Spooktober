@@ -1,0 +1,460 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ff450188ab97f499b760304ec457d0, type: 3}
+  m_Name: Conv - B-1 The Cape
+  m_EditorClassIdentifier: Spooktober::Dialogue_ConversationSO
+  saveID: d8127c422a4476a4c9fffb4173416d40
+  chapter: {fileID: 11400000, guid: b641b0ff405338d418f779ac70f98420, type: 2}
+  autosaveOnStart: 1
+  lines:
+  - speaker: {fileID: 0}
+    expression: 0
+    text: BOX ONE.
+    style: 1
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 11400000, guid: a7ebf25058fbdd44ab63f6db34b341f1, type: 2}
+      characters: 2
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l01
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: You have one job.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 1
+      cast:
+      - character: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+        slot: 0
+        expression: 1
+        flip: 1
+      - character: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+        slot: 1
+        expression: 11
+        flip: 0
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l02
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: What?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l03
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Hand me the scissors.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l04
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: You said one job.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l05
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Exactly.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l06
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Young Adam hands him the scissors.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l07
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Uncle, this invoice.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l08
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Don't start.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l09
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: You crossed the number out.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l10
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: I negotiated it.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l11
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: With a pen?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l12
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: A firm pen.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l13
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: That's not negotiating.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l14
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: It worked.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l15
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Did Samira pay?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l16
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Eleven dollars.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l17
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: That's not enough.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l18
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: And a jar of pickles.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l19
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: ...
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l20
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Pickles?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l21
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 1
+    text: Very good pickles.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l22
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Alexander continues sewing.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l23
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: Why are you making it?
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l24
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: Samira's boy needs a cape tomorrow.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l25
+  - speaker: {fileID: 11400000, guid: 2a43c1c0eff9fed4081428b339fe3cf1, type: 2}
+    expression: 11
+    text: He could use an old one.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l26
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: Last year they put him in a locker wearing a bedsheet.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l27
+  - speaker: {fileID: 0}
+    expression: 0
+    text: Young Adam stops.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l28
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: A bedsheet doesn't hide anybody.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l29
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: Not from bullies.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l30
+  - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
+    expression: 0
+    text: Not from anything.
+    style: 0
+    effects: []
+    stage:
+      transition: 0
+      background: {fileID: 0}
+      characters: 0
+      cast: []
+      closeUp: 0
+      closeUpImage: {fileID: 0}
+    id: l31
+  endType: 1
+  choices:
+  - text: Don't make it. We can't afford it.
+    requirements: []
+    showWhenLocked: 0
+    effects:
+    - variable: {fileID: 11400000, guid: ef64d149c1a38a04bbc1893a157619af, type: 2}
+      operation: 1
+      value: 3
+    reactionSpeaker: {fileID: 0}
+    reactionExpression: 0
+    reactionLine: 
+    next: {fileID: 11400000, guid: d4842920a8836a847a820ab85022477a, type: 2}
+    id: c01
+  - text: Make it. He needs it.
+    requirements: []
+    showWhenLocked: 0
+    effects:
+    - variable: {fileID: 11400000, guid: ea36ca2800b75c246925d1faa2afac28, type: 2}
+      operation: 1
+      value: 2
+    reactionSpeaker: {fileID: 0}
+    reactionExpression: 0
+    reactionLine: 
+    next: {fileID: 11400000, guid: 026c028bb0102a54b9e7988d7de00bce, type: 2}
+    id: c02
+  branches: []
+  defaultNext: {fileID: 0}
+  endCard:
+    title: THE END
+    subtitle: 

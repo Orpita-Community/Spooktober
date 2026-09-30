@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2866b19cc9ee948998eb113963d710, type: 3}
+  m_Name: Speaker - Adam Masked
+  m_EditorClassIdentifier: Spooktober::Dialogue_SpeakerSO
+  saveID: edeff9c4d70ab0242b3f6d5bc9c1298c
+  speakerName: Adam
+  nameColor: {r: 0.62, g: 0.78, b: 1, a: 1}
+  defaultPortrait: {fileID: 5615988232995519168, guid: 9eab42f86b53f89488071dd836930da6, type: 3}
+  portraits:
+  - expression: 0
+    sprite: {fileID: 5615988232995519168, guid: 9eab42f86b53f89488071dd836930da6, type: 3}
+  stageHeight: 1560
+  stageOffsetY: -570

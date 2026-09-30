@@ -15,6 +15,8 @@ public static class GameSystemsBuilder
     public const string GameSystemsPath = "Assets/Resources/GameSystems.prefab";
     public const string InputActionsPath = "Assets/InputSystem_Actions.inputactions";
 
+    private static readonly Color TitleColor = new Color(.94f, .9f, .83f); // The bone white of the logo's letters
+
     public static GameObject Build(Dialogue_DatabaseSO database, string mainMenuScene, string firstGameplayScene)
     {
         AssetFolders.Ensure(PrefabFolder);
@@ -37,6 +39,9 @@ public static class GameSystemsBuilder
 
         EventSystem eventSystem = BuildEventSystem(root.transform);
 
+        // Backgrounds and characters, drawn below all other UI
+        UI_Stage stage = BuildStage(root.transform);
+
         // UI
         GameObject canvasGO = new GameObject("UICanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(UI));
         canvasGO.transform.SetParent(root.transform, false);
@@ -49,15 +54,14 @@ public static class GameSystemsBuilder
         ui.pauseMenu = BuildPauseMenu(canvasGO.transform);
         ui.saveLoadMenu = BuildSaveLoadMenu(canvasGO.transform, saveSlotPrefab);
         ui.confirmDialog = BuildConfirmDialog(canvasGO.transform);
+        ui.stage = stage;
         BuildNotification(canvasGO.transform, ui);
 
         GameObject fadeCanvas = new GameObject("FadeCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         fadeCanvas.transform.SetParent(root.transform, false);
         fadeCanvas.layer = LayerMask.NameToLayer("UI");
         UIKit.ConfigureCanvas(fadeCanvas, 100);
-        Image fade = UIKit.Panel("FadeScreen", fadeCanvas.transform, Color.black);
-        UIKit.Stretch(fade.gameObject);
-        ui.fadeScreen = fade.gameObject.AddComponent<UI_FadeScreen>();
+        ui.fadeScreen = BuildFadeScreen(fadeCanvas.transform);
 
         // Wiring
         UIKit.Wire(root.GetComponent<GameSystems>(), "eventSystem", eventSystem);
@@ -142,6 +146,118 @@ public static class GameSystemsBuilder
 
     #endregion
 
+    #region Stage
+
+    private static UI_Stage BuildStage(Transform root)
+    {
+        GameObject canvasGO = new GameObject("StageCanvas", typeof(Canvas), typeof(CanvasScaler));
+        canvasGO.transform.SetParent(root, false);
+        canvasGO.layer = LayerMask.NameToLayer("UI");
+        UIKit.ConfigureCanvas(canvasGO, 1);
+
+        GameObject stageGO = UIKit.Create("Stage", canvasGO.transform);
+        UIKit.Stretch(stageGO);
+        UI_Stage stage = stageGO.AddComponent<UI_Stage>();
+
+        Image background = BackgroundLayer("Background", stageGO.transform);
+        Image incomingBackground = BackgroundLayer("IncomingBackground", stageGO.transform);
+
+        // Characters stand on the bottom edge of the screen, their size and offset come from each speaker
+        GameObject characters = UIKit.Create("Characters", stageGO.transform);
+        UIKit.Stretch(characters);
+        Image left = CharacterSlot("Left", characters.transform, .25f);
+        Image center = CharacterSlot("Center", characters.transform, .5f);
+        Image right = CharacterSlot("Right", characters.transform, .75f);
+
+        // A picture held up to the camera (a letter, a box), over a dimmed stage
+        GameObject closeUp = UIKit.Create("CloseUp", stageGO.transform, typeof(CanvasGroup));
+        UIKit.Stretch(closeUp);
+        CanvasGroup closeUpGroup = closeUp.GetComponent<CanvasGroup>();
+        closeUpGroup.alpha = 0f;
+        closeUpGroup.blocksRaycasts = false;
+        closeUpGroup.interactable = false;
+
+        // Linear colour space blends UI more softly than the alpha suggests: .78 reads as about half brightness
+        Image dim = UIKit.Panel("Dim", closeUp.transform, new Color(0, 0, 0, .78f));
+        UIKit.Stretch(dim.gameObject);
+        dim.raycastTarget = false;
+
+        Image picture = UIKit.Create("Picture", closeUp.transform, typeof(Image)).GetComponent<Image>();
+        picture.preserveAspect = true;
+        picture.raycastTarget = false;
+        UIKit.Place(picture.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, 90), new Vector2(1100, 640));
+
+        UIKit.Wire(stage, "background", background);
+        UIKit.Wire(stage, "incomingBackground", incomingBackground);
+        UIKit.Wire(stage, "saturationShader", AssetDatabase.LoadAssetAtPath<Shader>(StoryArt.SaturationShader));
+        UIKit.WireArray(stage, "characterSlots", left, center, right);
+        UIKit.Wire(stage, "closeUpGroup", closeUpGroup);
+        UIKit.Wire(stage, "closeUpPicture", picture);
+
+        stageGO.SetActive(false);
+        return stage;
+    }
+
+    private static Image BackgroundLayer(string name, Transform parent)
+    {
+        Image image = UIKit.Create(name, parent, typeof(Image), typeof(AspectRatioFitter)).GetComponent<Image>();
+        image.raycastTarget = false;
+
+        // Covers the whole screen at any aspect ratio, cropping the edges instead of letterboxing
+        AspectRatioFitter fitter = image.GetComponent<AspectRatioFitter>();
+        fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+        fitter.aspectRatio = 16f / 9f;
+        return image;
+    }
+
+    private static Image CharacterSlot(string name, Transform parent, float x)
+    {
+        Image image = UIKit.Create(name, parent, typeof(Image)).GetComponent<Image>();
+        image.preserveAspect = true;
+        image.raycastTarget = false;
+        UIKit.Place(image.gameObject, new Vector2(x, 0), new Vector2(.5f, 0), Vector2.zero, new Vector2(600, 1560));
+        image.gameObject.SetActive(false);
+        return image;
+    }
+
+    #endregion
+
+    #region Fade screen
+
+    private static UI_FadeScreen BuildFadeScreen(Transform canvas)
+    {
+        Image fade = UIKit.Panel("FadeScreen", canvas, Color.black);
+        UIKit.Stretch(fade.gameObject);
+        UI_FadeScreen fadeScreen = fade.gameObject.AddComponent<UI_FadeScreen>();
+
+        // "ACT 1" / "The Man in the Rain", shown on the black screen between acts
+        GameObject card = UIKit.Create("TitleCard", fade.transform, typeof(CanvasGroup));
+        UIKit.Stretch(card);
+        CanvasGroup cardGroup = card.GetComponent<CanvasGroup>();
+        cardGroup.alpha = 0f;
+        cardGroup.blocksRaycasts = false; // Clicks go to the black screen, which cuts the card short
+        cardGroup.interactable = false;
+
+        TextMeshProUGUI title = UIKit.Text("Title", card.transform, "ACT 1", 110, TextAlignmentOptions.Center, TitleColor, FontStyles.Bold);
+        title.characterSpacing = 24;
+        UIKit.Place(title.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, 70), new Vector2(1600, 150));
+
+        Image divider = UIKit.Panel("Divider", card.transform, new Color(1f, .54f, .24f, .85f));
+        divider.raycastTarget = false;
+        UIKit.Place(divider.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, -12), new Vector2(360, 3));
+
+        TextMeshProUGUI subtitle = UIKit.Text("Subtitle", card.transform, "The Man in the Rain", 44, TextAlignmentOptions.Center,
+            new Color(.76f, .64f, .92f), FontStyles.Italic);
+        UIKit.Place(subtitle.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, -75), new Vector2(1600, 80));
+
+        UIKit.Wire(fadeScreen, "titleCard", cardGroup);
+        UIKit.Wire(fadeScreen, "titleText", title);
+        UIKit.Wire(fadeScreen, "subtitleText", subtitle);
+        return fadeScreen;
+    }
+
+    #endregion
+
     #region Dialogue box
 
     private static UI_Dialogue BuildDialogueBox(Transform canvas, UI_DialogueChoice choicePrefab)
@@ -153,6 +269,15 @@ public static class GameSystemsBuilder
         // Transparent full-screen image: clicks anywhere that isn't a button bubble up to UI_Dialogue and advance
         Image clickCatcher = UIKit.Panel("ClickCatcher", box.transform, new Color(0, 0, 0, 0));
         UIKit.Stretch(clickCatcher.gameObject);
+
+        // Centered lines (captions, the inscription, the final text) replace the text box with a darkened screen
+        Image centerRoot = UIKit.Panel("CenterRoot", box.transform, new Color(0, 0, 0, .72f));
+        UIKit.Stretch(centerRoot.gameObject);
+        centerRoot.raycastTarget = false;
+        TextMeshProUGUI centerText = UIKit.Text("CenterText", centerRoot.transform, "", 46, TextAlignmentOptions.Center, TitleColor);
+        UIKit.Place(centerText.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, 60), new Vector2(1400, 600));
+        centerText.lineSpacing = 12;
+        centerRoot.gameObject.SetActive(false);
 
         // Portrait, standing above the left side of the text box
         GameObject portraitRoot = UIKit.Create("PortraitRoot", box.transform);
@@ -228,8 +353,11 @@ public static class GameSystemsBuilder
         UIKit.Wire(dialogue, "portrait", portrait);
         UIKit.Wire(dialogue, "namePlate", namePlate.gameObject);
         UIKit.Wire(dialogue, "nameText", nameText);
+        UIKit.Wire(dialogue, "textPanel", textPanel.gameObject);
         UIKit.Wire(dialogue, "bodyText", bodyText);
         UIKit.Wire(dialogue, "continueIndicator", continueIndicator.gameObject);
+        UIKit.Wire(dialogue, "centerRoot", centerRoot.gameObject);
+        UIKit.Wire(dialogue, "centerText", centerText);
         UIKit.Wire(dialogue, "choiceContainer", choices.transform);
         UIKit.Wire(dialogue, "choicePrefab", choicePrefab);
         UIKit.Wire(dialogue, "rollbackIndicator", rollback.gameObject);

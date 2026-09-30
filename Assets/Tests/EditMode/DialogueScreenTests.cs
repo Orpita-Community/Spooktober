@@ -120,6 +120,36 @@ public class DialogueScreenTests
     }
 
     [Test]
+    public void CenteredLinesKeepTheirStyle()
+    {
+        Dialogue_ConversationSO inscription = content.Conversation("inscription");
+        content.Line(inscription, "THE MASK IS WORN ONCE.").style = DialogueLineStyle.Centered;
+        content.Line(inscription, "Three boxes?", vance);
+        runner.Start(inscription);
+        runner.Advance();
+
+        Assert.AreEqual(DialogueLineStyle.Centered, Build(0, false).style);
+        Assert.AreEqual(DialogueLineStyle.Box, Build(1, true).style);
+    }
+
+    [Test]
+    public void KnowsWhenTheSpeakerIsStandingOnTheStage()
+    {
+        Dialogue_ConversationSO conversation = content.Conversation("c");
+        content.Line(conversation, "Tomorrow would be too late.", vance).stage = TestContent.Cast(TestContent.On(vance, StageSlot.Right));
+        content.Line(conversation, "Vance leaves.").stage = TestContent.Cast();
+        content.Line(conversation, "Goodbye.", vance);
+        runner.Start(conversation);
+        runner.Advance();
+        runner.Advance();
+
+        Assert.IsTrue(Build(0, false).speakerOnStage);
+        Assert.IsFalse(Build(1, false).speakerOnStage); // Narration has no speaker
+        Assert.IsFalse(Build(2, true).speakerOnStage);  // Speaking from off stage
+        Assert.AreEqual(1, Build(0, false).stage.actors.Count);
+    }
+
+    [Test]
     public void StripTagsRemovesRichText()
     {
         Assert.AreEqual("Thank you, boy.", DialogueText.StripTags("Thank you, <b>boy</b>."));

@@ -15,13 +15,9 @@ MonoBehaviour:
   saveID: e97ac13d3e46c134e982a04a88346827
   speakerName: Mr. Vance
   nameColor: {r: 0.84, g: 0.56, b: 1, a: 1}
-  defaultPortrait: {fileID: 774406271052365535, guid: 7718aaef37a30b943ad907eff6cd3654, type: 3}
+  defaultPortrait: {fileID: 5491944665840831294, guid: bfa5c1ee76ec59d41bdb8fcfe64a5d98, type: 3}
   portraits:
   - expression: 0
-    sprite: {fileID: 774406271052365535, guid: 7718aaef37a30b943ad907eff6cd3654, type: 3}
-  - expression: 6
-    sprite: {fileID: 4546748867367976658, guid: df10f819a81881746b75843d00937c9d, type: 3}
-  - expression: 3
-    sprite: {fileID: -6974617262515976169, guid: f0bf5ded2fa520b43b022a94151b97a9, type: 3}
-  - expression: 1
-    sprite: {fileID: -8779752829067702181, guid: fc2b67c1cb9328a4f9e0eba15beb21c1, type: 3}
+    sprite: {fileID: 5491944665840831294, guid: bfa5c1ee76ec59d41bdb8fcfe64a5d98, type: 3}
+  stageHeight: 1640
+  stageOffsetY: -630

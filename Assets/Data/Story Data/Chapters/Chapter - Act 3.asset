@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: Chapter - Act 3
   m_EditorClassIdentifier: Spooktober::Story_ChapterSO
   saveID: b958978a1245ed54687de80f394644e5
-  label: "Act 3 \u2014 11:59 PM"
+  label: "Act 3 \u2014 The Final Notice"
+  titleCard:
+    title: ACT 3
+    subtitle: The Final Notice

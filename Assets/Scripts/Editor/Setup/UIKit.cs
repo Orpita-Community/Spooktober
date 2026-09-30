@@ -183,6 +183,18 @@ public static class UIKit
         serialized.ApplyModifiedPropertiesWithoutUndo();
     }
 
+    public static void WireArray(Object target, string field, params Object[] values)
+    {
+        SerializedObject serialized = new SerializedObject(target);
+        SerializedProperty property = Property(serialized, field);
+        property.arraySize = values.Length;
+
+        for (int i = 0; i < values.Length; i++)
+            property.GetArrayElementAtIndex(i).objectReferenceValue = values[i];
+
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+    }
+
     public static void WireString(Object target, string field, string value)
     {
         SerializedObject serialized = new SerializedObject(target);

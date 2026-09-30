@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Spooktober::Story_VariableSO
   saveID: ea36ca2800b75c246925d1faa2afac28
   defaultValue: 0
-  description: Goes up with compassionate choices. Humanity > Cynicism at midnight
-    = the Humanity ending.
+  description: Humane answers add 2. Humanity higher than Cynicism at midnight =
+    the Humanity ending (dawn).

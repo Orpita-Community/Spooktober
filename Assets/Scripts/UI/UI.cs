@@ -19,6 +19,8 @@ public class UI : MonoBehaviour
     public UI_SaveLoadMenu saveLoadMenu;
     public UI_ConfirmDialog confirmDialog;
     public UI_FadeScreen fadeScreen;
+    [Tooltip("Backgrounds and characters behind the dialogue box (on its own canvas below this one).")]
+    public UI_Stage stage;
 
     [Header("Notification")]
     [SerializeField] private TextMeshProUGUI notificationText;
