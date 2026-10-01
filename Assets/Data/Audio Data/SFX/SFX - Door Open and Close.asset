@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631a4d315e57fa44a97d48eeef725957, type: 3}
+  m_Name: SFX - Door Open and Close
+  m_EditorClassIdentifier: Spooktober::Audio_SoundSO
+  saveID: 39b2fa3cf4a8ef842b17777aa38db5b1
+  clips:
+  - {fileID: 8300000, guid: eec251c72733c1d4fb4fd8455d941dcc, type: 3}
+  volume: 0.8

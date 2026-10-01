@@ -28,6 +28,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l01
   - speaker: {fileID: 0}
     expression: 0
@@ -41,6 +46,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l02
   - speaker: {fileID: 0}
     expression: 0
@@ -54,6 +64,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l03
   - speaker: {fileID: 0}
     expression: 0
@@ -67,6 +82,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l04
   - speaker: {fileID: 0}
     expression: 0
@@ -84,6 +104,11 @@ MonoBehaviour:
         flip: 0
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 11400000, guid: 39b2fa3cf4a8ef842b17777aa38db5b1, type: 2}
     id: l05
   - speaker: {fileID: 0}
     expression: 0
@@ -101,6 +126,11 @@ MonoBehaviour:
         flip: 0
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l06
   - speaker: {fileID: 0}
     expression: 0
@@ -118,6 +148,11 @@ MonoBehaviour:
         flip: 0
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l07
   - speaker: {fileID: 0}
     expression: 0
@@ -131,6 +166,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l08
   - speaker: {fileID: 0}
     expression: 0
@@ -144,6 +184,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l09
   - speaker: {fileID: 11400000, guid: 5ff72c6971643b146980da569faf3c4c, type: 2}
     expression: 2
@@ -157,6 +202,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l10
   - speaker: {fileID: 0}
     expression: 0
@@ -170,6 +220,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l11
   - speaker: {fileID: 0}
     expression: 0
@@ -183,6 +238,11 @@ MonoBehaviour:
       cast: []
       closeUp: 0
       closeUpImage: {fileID: 0}
+      music: 0
+      musicTrack: {fileID: 0}
+      ambience: 0
+      ambienceTrack: {fileID: 0}
+      sound: {fileID: 0}
     id: l12
   endType: 2
   choices: []
@@ -191,3 +251,4 @@ MonoBehaviour:
   endCard:
     title: THE END
     subtitle: 
+    note: 

@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Runs dialogue: owns the runner and history, handles input, rollback, skip and auto, and saves/restores the dialogue.
-// It also draws the stage behind the box, plays chapter title cards and line transitions, and ends the game.
+// It also draws the stage behind the box, plays chapter title cards, line transitions and sounds, keeps the music
+// and ambience in step with the story, and ends the game.
 [DefaultExecutionOrder(-100)]
 public class DialogueManager : MonoBehaviour, ISaveable
 {
@@ -14,6 +15,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
     [SerializeField] private StoryManager storyManager;
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private UI ui;
 
     [Header("Skip & Auto")]
@@ -91,6 +93,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
     public Dialogue_ConversationSO FindConversation(string saveID) => database != null ? database.GetConversation(saveID) : null;
     public Dialogue_SpeakerSO FindSpeaker(string saveID) => database != null ? database.GetSpeaker(saveID) : null;
     public Stage_ImageSO FindImage(string saveID) => database != null ? database.GetImage(saveID) : null;
+    public Audio_SoundSO FindSound(string saveID) => database != null ? database.GetSound(saveID) : null;
 
     public bool StartDialogue(Dialogue_ConversationSO conversation)
     {
@@ -369,28 +372,31 @@ public class DialogueManager : MonoBehaviour, ISaveable
     }
 
     // Shows the screen the runner just moved to. Entering a new chapter plays its title card first,
-    // and a line can ask to fade through black or flash.
+    // and a line can ask to fade through black or flash, and play a sound.
     private void PresentNew(HistoryEntry before, string chapterBefore)
     {
         bool typeIn = HasNewText(before);
         bool skipping = IsSkipping;
         TitleCard card = NewChapterCard(chapterBefore);
-        StageTransition transition = NewLineTransition(before);
+        StageDirection direction = NewLineDirection(before);
+        StageTransition transition = direction != null ? direction.transition : StageTransition.None;
+        Audio_SoundSO sound = direction != null && !skipping ? direction.sound : null;
 
         // Skipping jumps straight through fades, but act cards still show (briefly) so the player knows where they are
         if (card != null || (transition == StageTransition.Fade && !skipping))
         {
-            PresentThroughBlack(card, typeIn, skipping, hideBoxNow: before == null);
+            PresentThroughBlack(card, typeIn, skipping, hideBoxNow: before == null, sound);
             return;
         }
 
         RenderPresent(typeIn, true);
+        PlaySound(sound);
 
         if (transition == StageTransition.Flash && !skipping)
             ui.fadeScreen.Flash(flashColor, flashDuration);
     }
 
-    private void PresentThroughBlack(TitleCard card, bool typeIn, bool quick, bool hideBoxNow)
+    private void PresentThroughBlack(TitleCard card, bool typeIn, bool quick, bool hideBoxNow, Audio_SoundSO sound)
     {
         inTransition = true;
 
@@ -406,7 +412,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
                     return;
 
                 dialogueUI.Hide();
-                RenderStage(PresentScreen(), false);
+                RenderStage(PresentScreen(), false, true);
             },
             card, quick,
             onRevealed: () =>
@@ -417,6 +423,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
                     return;
 
                 RenderPresent(typeIn, false);
+                PlaySound(sound); // With the new scene, not over the title card
                 BlockInputThisFrame();
             });
     }
@@ -432,17 +439,17 @@ public class DialogueManager : MonoBehaviour, ISaveable
         return chapter != null && chapter.titleCard != null && !chapter.titleCard.IsEmpty ? chapter.titleCard : null;
     }
 
-    // The transition of the line that just appeared (choices and reactions have none)
-    private StageTransition NewLineTransition(HistoryEntry before)
+    // The stage direction of the line that just appeared (choices and reactions have none)
+    private StageDirection NewLineDirection(HistoryEntry before)
     {
         HistoryEntry present = history.Present;
 
         if (present == null || present == before || present.type != HistoryEntryType.Line)
-            return StageTransition.None;
+            return null;
 
         Dialogue_ConversationSO conversation = FindConversation(present.conversationID);
         DialogueLine line = conversation != null ? conversation.GetLine(present.itemID) : null;
-        return line != null && line.stage != null ? line.stage.transition : StageTransition.None;
+        return line != null ? line.stage : null;
     }
 
     private DialogueScreen PresentScreen() =>
@@ -451,24 +458,37 @@ public class DialogueManager : MonoBehaviour, ISaveable
     private void RenderPresent(bool typeIn, bool animateStage)
     {
         DialogueScreen screen = PresentScreen();
-        RenderStage(screen, animateStage);
+        RenderStage(screen, animateStage, true);
 
         dialogueUI.Show();
         dialogueUI.Render(screen, typeIn && !IsSkipping, OnChoiceSelected);
     }
 
-    // Rollback shows the stage exactly as it was, without animating
+    // Rollback shows the stage exactly as it was, without animating, and leaves the music alone
     private void RenderHistoryEntry(int index)
     {
         DialogueScreen screen = DialogueScreen.Build(history.Entries, index, false, FindConversation, storyManager.State);
-        RenderStage(screen, false);
+        RenderStage(screen, false, false);
         dialogueUI.Render(screen, false, null);
     }
 
-    private void RenderStage(DialogueScreen screen, bool animate)
+    private void RenderStage(DialogueScreen screen, bool animate, bool present)
     {
         StageScreen stage = StageScreen.Build(screen.stage, screen.speaker, FindSpeaker, FindImage);
         ui.stage.Render(stage, animate && !IsSkipping);
+
+        // The music and ambience follow the present screen, which is also how a loaded save gets its music back
+        if (present && audioManager != null)
+        {
+            audioManager.PlayMusic(FindSound(screen.stage.musicID));
+            audioManager.PlayAmbience(FindSound(screen.stage.ambienceID));
+        }
+    }
+
+    private void PlaySound(Audio_SoundSO sound)
+    {
+        if (sound != null && audioManager != null)
+            audioManager.PlaySFX(sound);
     }
 
     private void ReturnToPresent()
@@ -608,6 +628,7 @@ public class DialogueManager : MonoBehaviour, ISaveable
         storyManager = transform.root.GetComponentInChildren<StoryManager>(true);
         saveManager = transform.root.GetComponentInChildren<SaveManager>(true);
         gameManager = transform.root.GetComponentInChildren<GameManager>(true);
+        audioManager = transform.root.GetComponentInChildren<AudioManager>(true);
         ui = transform.root.GetComponentInChildren<UI>(true);
     }
 #endif

@@ -460,6 +460,35 @@ public class DialogueRunnerTests
         Assert.AreEqual(StageSlot.Left, present.stage.FindActor(adam.saveID).slot);
     }
 
+    [Test]
+    public void TheMusicCarriesIntoTheNextConversationAndIntoTheSave()
+    {
+        Dialogue_ConversationSO inside = Linear("inside", "The doorbell rings.", "The door was locked.");
+        inside.lines[1].stage.ambience = StageChange.Clear;
+
+        Dialogue_ConversationSO street = Linear("street", "Halloween night.");
+        street.endType = DialogueEndType.Jump;
+        street.defaultNext = inside;
+        street.lines[0].stage.music = StageChange.Set;
+        street.lines[0].stage.musicTrack = content.Sound("music-theme");
+        street.lines[0].stage.ambience = StageChange.Set;
+        street.lines[0].stage.ambienceTrack = content.Sound("amb-rain");
+
+        runner.Start(street);
+        runner.Advance();
+        Assert.AreEqual("inside", runner.Conversation.saveID);
+        Assert.AreEqual("music-theme", Last.stage.musicID);
+        Assert.AreEqual("amb-rain", Last.stage.ambienceID);
+
+        runner.Advance();
+        SaveAndReload(out _, out DialogueHistory loadedHistory);
+        HistoryEntry present = loadedHistory.Entries[loadedHistory.Entries.Count - 1];
+
+        Assert.AreEqual("music-theme", present.stage.musicID);
+        Assert.AreEqual("", present.stage.ambienceID);
+        Assert.AreEqual("amb-rain", loadedHistory.Entries[1].stage.ambienceID, "Earlier screens keep what was playing then.");
+    }
+
     #endregion
 
     #region Save and resume

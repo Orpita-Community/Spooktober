@@ -63,6 +63,13 @@ public class TestContent : IDisposable
         return image;
     }
 
+    public Audio_SoundSO Sound(string saveID)
+    {
+        Audio_SoundSO sound = Create<Audio_SoundSO>(saveID);
+        sound.saveID = saveID;
+        return sound;
+    }
+
     public static StageCharacter On(Dialogue_SpeakerSO character, StageSlot slot, PortraitExpression expression = PortraitExpression.Normal) =>
         new StageCharacter { character = character, slot = slot, expression = expression };
 

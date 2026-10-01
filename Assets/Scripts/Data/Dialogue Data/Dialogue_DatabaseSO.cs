@@ -11,16 +11,19 @@ public class Dialogue_DatabaseSO : ScriptableObject
     public List<Story_ChapterSO> chapters = new List<Story_ChapterSO>();
     public List<Story_VariableSO> variables = new List<Story_VariableSO>();
     public List<Stage_ImageSO> images = new List<Stage_ImageSO>();
+    public List<Audio_SoundSO> sounds = new List<Audio_SoundSO>();
 
     [NonSerialized] private Dictionary<string, Dialogue_ConversationSO> conversationLookup;
     [NonSerialized] private Dictionary<string, Story_ChapterSO> chapterLookup;
     [NonSerialized] private Dictionary<string, Dialogue_SpeakerSO> speakerLookup;
     [NonSerialized] private Dictionary<string, Stage_ImageSO> imageLookup;
+    [NonSerialized] private Dictionary<string, Audio_SoundSO> soundLookup;
 
     public Dialogue_ConversationSO GetConversation(string saveID) => Find(conversations, saveID, c => c.saveID, ref conversationLookup);
     public Story_ChapterSO GetChapter(string saveID) => Find(chapters, saveID, c => c.saveID, ref chapterLookup);
     public Dialogue_SpeakerSO GetSpeaker(string saveID) => Find(speakers, saveID, s => s.saveID, ref speakerLookup);
     public Stage_ImageSO GetImage(string saveID) => Find(images, saveID, i => i.saveID, ref imageLookup);
+    public Audio_SoundSO GetSound(string saveID) => Find(sounds, saveID, s => s.saveID, ref soundLookup);
 
     private void OnEnable() => ClearCache();
     private void OnValidate() => ClearCache();
@@ -31,6 +34,7 @@ public class Dialogue_DatabaseSO : ScriptableObject
         chapterLookup = null;
         speakerLookup = null;
         imageLookup = null;
+        soundLookup = null;
     }
 
     private static T Find<T>(List<T> items, string saveID, Func<T, string> getId, ref Dictionary<string, T> lookup) where T : UnityEngine.Object
@@ -64,6 +68,7 @@ public class Dialogue_DatabaseSO : ScriptableObject
         chapters = FindAllAssets<Story_ChapterSO>();
         variables = FindAllAssets<Story_VariableSO>();
         images = FindAllAssets<Stage_ImageSO>();
+        sounds = FindAllAssets<Audio_SoundSO>();
 
         // New assets have an empty saveID until they're re-validated, so stamp everything here
         foreach (Dialogue_ConversationSO conversation in conversations)
@@ -87,6 +92,9 @@ public class Dialogue_DatabaseSO : ScriptableObject
         foreach (Stage_ImageSO image in images)
             SaveIDUtility.StampAssetGUID(image, ref image.saveID);
 
+        foreach (Audio_SoundSO sound in sounds)
+            SaveIDUtility.StampAssetGUID(sound, ref sound.saveID);
+
         // After stamping, so the warnings see the final ids
         foreach (Dialogue_ConversationSO conversation in conversations)
             ValidateConversation(conversation);
@@ -96,7 +104,7 @@ public class Dialogue_DatabaseSO : ScriptableObject
         UnityEditor.AssetDatabase.SaveAssets();
 
         Debug.Log($"Dialogue Database: {conversations.Count} conversations, {speakers.Count} speakers, {chapters.Count} chapters, " +
-            $"{variables.Count} variables, {images.Count} stage images.", this);
+            $"{variables.Count} variables, {images.Count} stage images, {sounds.Count} sounds.", this);
     }
 
     private static void ValidateConversation(Dialogue_ConversationSO conversation)
@@ -139,6 +147,12 @@ public class Dialogue_DatabaseSO : ScriptableObject
 
         if (stage.closeUp == StageChange.Set && stage.closeUpImage == null)
             Debug.LogWarning($"'{conversation.name}' line {lineIndex} sets a close-up but has no close-up image.", conversation);
+
+        if (stage.music == StageChange.Set && stage.musicTrack == null)
+            Debug.LogWarning($"'{conversation.name}' line {lineIndex} sets the music but has no track (use Clear to stop it).", conversation);
+
+        if (stage.ambience == StageChange.Set && stage.ambienceTrack == null)
+            Debug.LogWarning($"'{conversation.name}' line {lineIndex} sets the ambience but has no track (use Clear to stop it).", conversation);
 
         if (stage.characters != StageChange.Set)
             return;

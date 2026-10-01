@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour, ISaveable
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private StoryManager storyManager;
     [SerializeField] private DialogueManager dialogueManager;
+    [SerializeField] private AudioManager audioManager;
 
     // Work waiting for a black screen: runs under the current transition's black screen, before it fades back in
     private class Blackout
@@ -224,6 +225,9 @@ public class GameManager : MonoBehaviour, ISaveable
         ui.CloseAllMenus();
         Time.timeScale = 1f;
 
+        if (audioManager != null)
+            audioManager.StopAll(endingFadeDuration); // The music and rain go with the picture
+
         yield return ui.fadeScreen.FadeOutCo(endingFadeDuration);
 
         ui.stage.Hide();
@@ -257,6 +261,7 @@ public class GameManager : MonoBehaviour, ISaveable
         saveManager = transform.root.GetComponentInChildren<SaveManager>(true);
         storyManager = transform.root.GetComponentInChildren<StoryManager>(true);
         dialogueManager = transform.root.GetComponentInChildren<DialogueManager>(true);
+        audioManager = transform.root.GetComponentInChildren<AudioManager>(true);
     }
 #endif
 }

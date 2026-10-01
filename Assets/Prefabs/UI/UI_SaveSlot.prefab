@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 6714009132432371660}
   - component: {fileID: 7457369982026384006}
   - component: {fileID: 6580748880048939732}
+  - component: {fileID: 7753827301079127188}
   m_Layer: 5
   m_Name: DeleteButton
   m_TagString: Untagged
@@ -416,6 +417,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7753827301079127188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692472258265759667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482ff9eedf0acd445a4b466a2c213a1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Spooktober::UI_ButtonSound
 --- !u!1 &2320189681687752554
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,6 +716,7 @@ GameObject:
   - component: {fileID: 4783942583232039701}
   - component: {fileID: 2918770862303877036}
   - component: {fileID: 5840954057500238931}
+  - component: {fileID: 3565730626460318714}
   - component: {fileID: 7385294510604837422}
   m_Layer: 5
   m_Name: UI_SaveSlot
@@ -840,6 +854,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &3565730626460318714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4557151282169268798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482ff9eedf0acd445a4b466a2c213a1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Spooktober::UI_ButtonSound
 --- !u!114 &7385294510604837422
 MonoBehaviour:
   m_ObjectHideFlags: 0

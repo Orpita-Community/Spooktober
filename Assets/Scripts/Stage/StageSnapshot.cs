@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 // What is on stage for one screen, stored as ids with every history entry.
 // Rollback, the backlog and loading a save all read it back, so they show exactly the stage the player saw.
+// The music and ambience playing are part of it too, so a loaded save sounds like the moment it was made.
 // Snapshots are never changed after they are stored: With() returns a new one.
 [Serializable]
 public class StageSnapshot
@@ -10,6 +11,8 @@ public class StageSnapshot
     public string backgroundID = "";
     public string closeUpID = "";
     public List<StageActor> actors = new List<StageActor>();
+    public string musicID = "";
+    public string ambienceID = "";
 
     public StageActor FindActor(string speakerID)
     {
@@ -29,7 +32,13 @@ public class StageSnapshot
 
     public StageSnapshot Clone()
     {
-        StageSnapshot copy = new StageSnapshot { backgroundID = backgroundID ?? "", closeUpID = closeUpID ?? "" };
+        StageSnapshot copy = new StageSnapshot
+        {
+            backgroundID = backgroundID ?? "",
+            closeUpID = closeUpID ?? "",
+            musicID = musicID ?? "",
+            ambienceID = ambienceID ?? ""
+        };
 
         foreach (StageActor actor in actors)
         {
@@ -55,10 +64,9 @@ public class StageSnapshot
             else if (direction.characters == StageChange.Set)
                 next.SetCast(direction.cast);
 
-            if (direction.closeUp == StageChange.Clear)
-                next.closeUpID = "";
-            else if (direction.closeUp == StageChange.Set)
-                next.closeUpID = direction.closeUpImage != null ? direction.closeUpImage.saveID : "";
+            next.closeUpID = Changed(next.closeUpID, direction.closeUp, direction.closeUpImage != null ? direction.closeUpImage.saveID : "");
+            next.musicID = Changed(next.musicID, direction.music, direction.musicTrack != null ? direction.musicTrack.saveID : "");
+            next.ambienceID = Changed(next.ambienceID, direction.ambience, direction.ambienceTrack != null ? direction.ambienceTrack.saveID : "");
         }
 
         if (speaker != null)
@@ -69,6 +77,16 @@ public class StageSnapshot
         }
 
         return next;
+    }
+
+    private static string Changed(string current, StageChange change, string setTo)
+    {
+        switch (change)
+        {
+            case StageChange.Set: return setTo;
+            case StageChange.Clear: return "";
+            default: return current;
+        }
     }
 
     private void SetCast(List<StageCharacter> cast)

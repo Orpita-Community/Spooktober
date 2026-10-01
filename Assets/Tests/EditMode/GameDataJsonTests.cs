@@ -57,7 +57,7 @@ public class GameDataJsonTests
     public void HistoryKeepsTheStageBehindEachScreen()
     {
         GameData data = new GameData();
-        StageSnapshot stage = new StageSnapshot { backgroundID = "bg-shop", closeUpID = "cu-letter" };
+        StageSnapshot stage = new StageSnapshot { backgroundID = "bg-shop", closeUpID = "cu-letter", musicID = "music-theme", ambienceID = "amb-rain" };
         stage.actors.Add(new StageActor { speakerID = "adam", slot = StageSlot.Left, expression = PortraitExpression.Sad, flip = true });
         data.history.Add(new HistoryEntry { conversationID = "intro", itemID = "l1", stage = stage });
 
@@ -66,6 +66,8 @@ public class GameDataJsonTests
 
         Assert.AreEqual("bg-shop", loadedStage.backgroundID);
         Assert.AreEqual("cu-letter", loadedStage.closeUpID);
+        Assert.AreEqual("music-theme", loadedStage.musicID);
+        Assert.AreEqual("amb-rain", loadedStage.ambienceID);
         Assert.AreEqual(1, loadedStage.actors.Count);
         Assert.AreEqual(StageSlot.Left, loadedStage.actors[0].slot);
         Assert.AreEqual(PortraitExpression.Sad, loadedStage.actors[0].expression);
@@ -80,6 +82,7 @@ public class GameDataJsonTests
         Assert.IsNotNull(loaded.history[0].stage);
         Assert.AreEqual("", loaded.history[0].stage.backgroundID);
         Assert.AreEqual(0, loaded.history[0].stage.actors.Count);
+        Assert.AreEqual("", loaded.history[0].stage.musicID);
     }
 
     [Test]

@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-// The game's art as the story and scenes use it, and the import settings the stage needs.
+// The game's art as the story and scenes use it.
 // The artist sliced most files in the Sprite Editor, so each file's largest sprite is the picture itself.
 public static class StoryArt
 {
@@ -21,6 +21,7 @@ public static class StoryArt
     public const string MaskBox = "Assets/Art/act 1/Boxes.png";
     public const string MaskInBox = "Assets/Art/act 1/Mask in Box.png";
     public const string Mask = "Assets/Art/Characters/Mask.png";
+    public const string SignedPaper = "Assets/Art/Paper.png";
 
     // Characters (full body)
     public const string Adam = "Assets/Art/Characters/Adam.png";
@@ -58,7 +59,8 @@ public static class StoryArt
         return sprite;
     }
 
-    // Only reimports when something differs, and keeps the artist's slices (Sprite Mode stays as it is)
+    // Only what the stage can't do without: a sprite, big enough not to be scaled down.
+    // Everything else (compression, filtering, the artist's slices) is left as the team set it.
     private static void EnsureImport(string path, int maxSize)
     {
         if (!(AssetImporter.GetAtPath(path) is TextureImporter importer))
@@ -73,28 +75,9 @@ public static class StoryArt
             changed = true;
         }
 
-        if (importer.maxTextureSize != maxSize)
+        if (importer.maxTextureSize < maxSize)
         {
             importer.maxTextureSize = maxSize;
-            changed = true;
-        }
-
-        // Painted art with soft gradients: normal compression bands visibly
-        if (importer.textureCompression != TextureImporterCompression.CompressedHQ)
-        {
-            importer.textureCompression = TextureImporterCompression.CompressedHQ;
-            changed = true;
-        }
-
-        if (importer.mipmapEnabled)
-        {
-            importer.mipmapEnabled = false;
-            changed = true;
-        }
-
-        if (!importer.alphaIsTransparency && importer.DoesSourceTextureHaveAlpha())
-        {
-            importer.alphaIsTransparency = true;
             changed = true;
         }
 

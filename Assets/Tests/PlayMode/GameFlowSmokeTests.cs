@@ -9,15 +9,21 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 // Plays the real story (Assets/Data) through the real GameSystems prefab and the MainMenu/Shop scenes, down both endings.
 public class GameFlowSmokeTests
 {
     private const string TestSaveFolder = "SmokeTestSaves";
+    private const string TestPrefsPrefix = "SmokeTest."; // Volume settings, kept apart from the player's
 
     private readonly List<string> titleCards = new List<string>();
+    private readonly List<string> sounds = new List<string>();
 
     private static string SaveDirectory => Path.Combine(Application.persistentDataPath, TestSaveFolder);
+    private static string Music => AudioManager.Instance.CurrentMusic != null ? AudioManager.Instance.CurrentMusic.name : "";
+    private static string Ambience => AudioManager.Instance.CurrentAmbience != null ? AudioManager.Instance.CurrentAmbience.name : "";
+    private List<string> Effects => sounds.Where(sound => sound.StartsWith("SFX - ")).ToList(); // Not the button clicks
     private static UI_Dialogue DialogueUI => UI.Instance.dialogueUI;
     private static bool CenteredLineShown => Find<Transform>(DialogueUI.transform, "CenterRoot").gameObject.activeSelf;
     private static string ShownText => Find<TextMeshProUGUI>(DialogueUI.transform, CenteredLineShown ? "CenterText" : "BodyText").text;
@@ -38,21 +44,31 @@ public class GameFlowSmokeTests
         SetField(GameManager.Instance, "endingFadeDuration", .05f);
         SetField(UI.Instance.fadeScreen, "titleFadeTime", .05f);
         SetField(UI.Instance.fadeScreen, "titleHoldTime", .05f);
+        SetField(UI.Instance.fadeScreen, "noteHoldTime", .05f);
+        SetField(UI.Instance.fadeScreen, "noteHoldPerCharacter", 0f);
+        SetField(AudioManager.Instance, "prefsPrefix", TestPrefsPrefix);
         DeleteTestSaves();
+        DeleteTestPrefs();
 
         titleCards.Clear();
+        sounds.Clear();
         UI.Instance.fadeScreen.OnTitleCardShown += RecordTitleCard;
+        AudioManager.Instance.OnSoundPlayed += RecordSound;
     }
 
     [UnityTearDown]
     public IEnumerator TearDown()
     {
         UI.Instance.fadeScreen.OnTitleCardShown -= RecordTitleCard;
+        AudioManager.Instance.OnSoundPlayed -= RecordSound;
+        SetField(AudioManager.Instance, "prefsPrefix", "");
         DeleteTestSaves();
+        DeleteTestPrefs();
         yield return null;
     }
 
     private void RecordTitleCard(TitleCard card) => titleCards.Add(card.title);
+    private void RecordSound(Audio_SoundSO sound) => sounds.Add(sound.name);
 
     [UnityTest]
     public IEnumerator HumanityRoute_TitleCardsStageSaveLoadRollbackAndTheEnd()
@@ -67,6 +83,8 @@ public class GameFlowSmokeTests
         Assert.AreEqual("Prologue — October 31", StoryManager.Instance.CurrentChapterLabel);
         Assert.AreEqual("BG - Street", Stage.background.name);
         Assert.AreEqual(0, Stage.actors.Count);
+        Assert.AreEqual("Music - Main Theme", Music);
+        Assert.AreEqual("Ambience - Rain Outside", Ambience);
         yield return WaitUntil(() => File.Exists(SlotPath("auto")), 10, "the prologue autosave");
 
         // Act 1 gets its own card, then Vance's first question
@@ -78,6 +96,8 @@ public class GameFlowSmokeTests
         AssertCast("Speaker - Adam", "Speaker - Vance");
         Assert.IsTrue(Actor("Speaker - Vance").speaking, "The speaker is lit, the others step back.");
         Assert.IsFalse(Actor("Speaker - Adam").speaking);
+        Assert.AreEqual("Ambience - Rain Inside", Ambience, "Inside the shop the rain is muffled.");
+        CollectionAssert.AreEqual(new[] { "SFX - Thunder", "SFX - Door Open and Close" }, Effects);
 
         yield return WaitUntil(() => !SaveManager.Instance.IsBusy, 5, "the autosave to finish");
         SaveManager.Instance.QuickSave();
@@ -108,12 +128,17 @@ public class GameFlowSmokeTests
         Assert.AreEqual("BG - Shop", Stage.background.name);
         AssertCast("Speaker - Adam", "Speaker - Vance");
         CollectionAssert.AreEqual(new[] { "PROLOGUE", "ACT 1" }, titleCards, "Loading a save doesn't replay title cards.");
+        Assert.AreEqual("Music - Main Theme", Music);
+        Assert.AreEqual("Ambience - Rain Inside", Ambience);
+        Assert.AreEqual(2, Effects.Count, "Rollback and loading don't replay sound effects.");
 
-        // Pause stops time, Back resumes it
+        // Pause stops time, Back resumes it. The volume settings open from the pause menu.
         GameManager.Instance.OpenPauseMenu();
         yield return null;
         Assert.IsTrue(UI.Instance.IsModalOpen);
         Assert.AreEqual(0f, Time.timeScale);
+        yield return CheckSettings(Find<Button>(UI.Instance.pauseMenu.transform, "SettingsButton"));
+        Assert.IsTrue(UI.Instance.IsMenuOpen(UI.Instance.pauseMenu.gameObject), "Closing the settings goes back to the pause menu.");
         UI.Instance.Back();
         Assert.AreEqual(1f, Time.timeScale);
         yield return null; // The press that closed the menu is ignored by the dialogue that frame
@@ -125,17 +150,27 @@ public class GameFlowSmokeTests
         yield return AdvanceUntil(() => ChoicesShown, "the signature choice");
         yield return Pick("Can't I wait until tomorrow");
 
+        // Adam signs: the signed paper fills the screen, with the sound of the pen
+        yield return AdvanceUntil(() => ShownText.Contains("Adam signs his name."), "the signature");
+        Assert.AreEqual("CU - Signed Paper", Stage.closeUp.name);
+        CollectionAssert.AreEqual(new[] { "SFX - Thunder", "SFX - Door Open and Close", "SFX - Mask Box Open", "SFX - Agreement Paper", "SFX - Signature" }, Effects);
+
         // The mirror puts the mask on Adam, and the inscription burns in as a centered line
         yield return AdvanceUntil(() => ShownText.Contains("The reflection is wearing the mask."), "the mirror");
         AssertCast("Speaker - Adam Masked");
+        Assert.IsNull(Stage.closeUp);
         yield return AdvanceUntil(() => ShownText.Contains("THE MASK IS WORN ONCE."), "the inscription");
         Assert.IsTrue(CenteredLineShown);
 
-        // Act 2: three memories, three choices
+        // Act 2: the card, then a note on its own about what the mask does; three memories, three choices
         yield return AdvanceUntil(() => ChoicesShown, "the cape choice");
         CollectionAssert.AreEqual(new[] { "PROLOGUE", "ACT 1", "ACT 2" }, titleCards);
+        StringAssert.StartsWith("The mask will show you the memory you have of the costume in the box",
+            Find<TextMeshProUGUI>(UI.Instance.fadeScreen.transform, "Note").text);
         Assert.AreEqual("BG - Workshop Cape", Stage.background.name);
         AssertCast("Speaker - Young Adam", "Speaker - Alexander");
+        Assert.AreEqual("Music - Main Theme", Music);
+        Assert.AreEqual("", Ambience, "No rain in the memories.");
         yield return Pick("Make it");
         yield return AdvanceUntil(() => ChoicesShown, "the dress choice");
         Assert.AreEqual("BG - Workshop Dress", Stage.background.name);
@@ -152,15 +187,29 @@ public class GameFlowSmokeTests
         yield return AdvanceUntil(() => ShownText.Contains("The mask is broken away from Adam."), "the mask breaking");
         CollectionAssert.AreEqual(new[] { "PROLOGUE", "ACT 1", "ACT 2", "ACT 3" }, titleCards);
         AssertCast("Speaker - Adam", "Speaker - Vance");
+        Assert.AreEqual("Ambience - Rain Inside", Ambience, "Back in the shop, the rain is back.");
 
         yield return AdvanceUntil(() => ShownText.Contains("Some things only need to be faced."), "the last line");
         Assert.IsTrue(CenteredLineShown);
+        Assert.AreEqual("Music - Main Theme", Music);
+        Assert.AreEqual("", Ambience, "The rain has stopped by dawn.");
+        Assert.AreEqual(2, Effects.Count(sound => sound == "SFX - Agreement Paper"), "Vance looks at the signed paper one last time.");
         yield return AdvanceUntil(() => !dialogue.IsActive, "the story to end");
 
         yield return WaitUntil(() => SceneManager.GetActiveScene().name == "MainMenu" && !GameManager.Instance.IsTransitioning, 15,
             "the end card and the main menu");
         Assert.AreEqual("THE END", titleCards.Last());
         Assert.IsFalse(UI.Instance.stage.gameObject.activeSelf, "The stage is gone in the main menu.");
+
+        // The main menu plays the theme without the rain, and has a Settings button too
+        Assert.AreEqual("Music - Main Theme", Music);
+        Assert.AreEqual("", Ambience);
+        Button menuSettings = GetField<Button>(UnityEngine.Object.FindAnyObjectByType<UI_MainMenu>(), "settingsButton");
+        Assert.IsNotNull(menuSettings, "The main menu should have a Settings button.");
+        menuSettings.onClick.Invoke();
+        yield return null;
+        Assert.IsTrue(UI.Instance.IsMenuOpen(UI.Instance.settingsMenu.gameObject));
+        UI.Instance.Back();
 
         // The quick save slot describes where it was made
         SaveSlotInfo quick = SaveManager.Instance.GetSlotInfo(SaveManager.QuickSlot);
@@ -188,6 +237,8 @@ public class GameFlowSmokeTests
         yield return AdvanceUntil(() => ShownText.Contains("Some doors don't close when you leave."), "the final text");
         Assert.AreEqual("BG - Shop Cold", Stage.background.name);
         AssertCast("Speaker - Adam Masked");
+        Assert.AreEqual("", Music, "The music goes with Vance.");
+        Assert.AreEqual("", Ambience, "The shop is silent.");
 
         yield return AdvanceUntil(() => !DialogueManager.Instance.IsActive, "the story to end");
         yield return WaitUntil(() => SceneManager.GetActiveScene().name == "MainMenu" && !GameManager.Instance.IsTransitioning, 15,
@@ -200,6 +251,49 @@ public class GameFlowSmokeTests
         GameManager.Instance.NewGame();
         yield return WaitUntil(() => SceneManager.GetActiveScene().name == "Shop" && !GameManager.Instance.IsTransitioning && DialogueManager.Instance.IsActive,
             15, "New Game to open the prologue");
+    }
+
+    // Opens the settings with the given button, then moves and switches each channel and checks what reaches the mixer
+    private static IEnumerator CheckSettings(Button settingsButton)
+    {
+        AudioManager audio = AudioManager.Instance;
+        UI_Settings settings = UI.Instance.settingsMenu;
+
+        settingsButton.onClick.Invoke();
+        yield return null;
+        Assert.IsTrue(UI.Instance.IsMenuOpen(settings.gameObject), "The Settings button should open the settings.");
+
+        (string row, AudioChannel channel)[] channels = { ("Master Row", AudioChannel.Master), ("Music Row", AudioChannel.Music), ("Sound Effects Row", AudioChannel.SFX) };
+
+        foreach ((string row, AudioChannel channel) in channels)
+        {
+            Transform rowRoot = Find<Transform>(settings.transform, row);
+            Slider slider = rowRoot.GetComponentInChildren<Slider>();
+            Toggle toggle = rowRoot.GetComponentInChildren<Toggle>();
+            TextMeshProUGUI toggleLabel = toggle.GetComponentInChildren<TextMeshProUGUI>();
+
+            Assert.AreEqual(.6f, slider.value, .0001f, $"{row} should start at .6.");
+            Assert.IsTrue(toggle.isOn, $"{row} should start switched on.");
+            Assert.AreEqual("ON", toggleLabel.text);
+
+            slider.value = .3f;
+            Assert.AreEqual(.3f, audio.GetVolume(channel), .0001f);
+            Assert.AreEqual(Mathf.Log10(.3f) * 25f, audio.GetMixerDecibels(channel), .01f, $"{row}: Log10(volume) * 25 dB, like RPG2D.");
+
+            toggle.isOn = false;
+            Assert.IsFalse(audio.IsOn(channel));
+            Assert.AreEqual(AudioManager.SilentDecibels, audio.GetMixerDecibels(channel), .01f, $"{row}: off is silent.");
+            Assert.AreEqual("OFF", toggleLabel.text);
+            Assert.IsFalse(slider.interactable, "A switched-off channel's slider can't be moved.");
+
+            toggle.isOn = true;
+            Assert.AreEqual(Mathf.Log10(.3f) * 25f, audio.GetMixerDecibels(channel), .01f, $"{row}: back on at the volume it had.");
+            Assert.IsTrue(slider.interactable);
+        }
+
+        UI.Instance.Back();
+        yield return null;
+        Assert.IsFalse(UI.Instance.IsMenuOpen(settings.gameObject));
     }
 
     private static IEnumerator Pick(string textStart)
@@ -272,9 +366,21 @@ public class GameFlowSmokeTests
     private static void SetField(object target, string field, object value) =>
         target.GetType().GetField(field, BindingFlags.NonPublic | BindingFlags.Instance).SetValue(target, value);
 
+    private static T GetField<T>(object target, string field) =>
+        (T)target.GetType().GetField(field, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(target);
+
     private static void DeleteTestSaves()
     {
         if (Directory.Exists(SaveDirectory))
             Directory.Delete(SaveDirectory, true);
+    }
+
+    private static void DeleteTestPrefs()
+    {
+        foreach (string parameter in new[] { "masterVolume", "musicVolume", "sfxVolume" })
+        {
+            PlayerPrefs.DeleteKey(TestPrefsPrefix + parameter);
+            PlayerPrefs.DeleteKey(TestPrefsPrefix + parameter + "On");
+        }
     }
 }

@@ -37,6 +37,7 @@ public static class GameSystemsBuilder
         foreach (Component manager in new Component[] { gameManager, saveManager, storyManager, dialogueManager })
             manager.transform.SetParent(root.transform, false);
 
+        AudioManager audioManager = BuildAudioManager(root.transform);
         EventSystem eventSystem = BuildEventSystem(root.transform);
 
         // Backgrounds and characters, drawn below all other UI
@@ -53,6 +54,7 @@ public static class GameSystemsBuilder
         ui.backlogUI = BuildBacklog(canvasGO.transform, backlogEntryPrefab);
         ui.pauseMenu = BuildPauseMenu(canvasGO.transform);
         ui.saveLoadMenu = BuildSaveLoadMenu(canvasGO.transform, saveSlotPrefab);
+        ui.settingsMenu = BuildSettingsMenu(canvasGO.transform);
         ui.confirmDialog = BuildConfirmDialog(canvasGO.transform);
         ui.stage = stage;
         BuildNotification(canvasGO.transform, ui);
@@ -72,6 +74,7 @@ public static class GameSystemsBuilder
         UIKit.Wire(gameManager, "saveManager", saveManager);
         UIKit.Wire(gameManager, "storyManager", storyManager);
         UIKit.Wire(gameManager, "dialogueManager", dialogueManager);
+        UIKit.Wire(gameManager, "audioManager", audioManager);
 
         UIKit.Wire(saveManager, "gameManager", gameManager);
         UIKit.Wire(saveManager, "storyManager", storyManager);
@@ -84,6 +87,7 @@ public static class GameSystemsBuilder
         UIKit.Wire(dialogueManager, "storyManager", storyManager);
         UIKit.Wire(dialogueManager, "saveManager", saveManager);
         UIKit.Wire(dialogueManager, "gameManager", gameManager);
+        UIKit.Wire(dialogueManager, "audioManager", audioManager);
         UIKit.Wire(dialogueManager, "ui", ui);
 
         EditorUtility.SetDirty(ui);
@@ -102,6 +106,44 @@ public static class GameSystemsBuilder
 
         return prefab;
     }
+
+    #region Audio
+
+    // Three sources like RPG2D's bgm/sfx pair, plus one for the rain: music → Music group, ambience and effects → SFX group
+    private static AudioManager BuildAudioManager(Transform parent)
+    {
+        GameObject go = new GameObject("AudioManager", typeof(AudioManager));
+        go.transform.SetParent(parent, false);
+        AudioManager audioManager = go.GetComponent<AudioManager>();
+
+        AudioSource music = AudioSourceChild(go.transform, "Music", StoryAudio.Group("Music"), loop: true);
+        AudioSource ambience = AudioSourceChild(go.transform, "Ambience", StoryAudio.Group("SFX"), loop: true);
+        AudioSource sfx = AudioSourceChild(go.transform, "SFX", StoryAudio.Group("SFX"), loop: false);
+
+        UIKit.Wire(audioManager, "musicSource", music);
+        UIKit.Wire(audioManager, "ambienceSource", ambience);
+        UIKit.Wire(audioManager, "sfxSource", sfx);
+        UIKit.Wire(audioManager, "audioMixer", StoryAudio.Mixer());
+        UIKit.Wire(audioManager, "menuMusic", StoryAudio.MainTheme());
+        UIKit.Wire(audioManager, "buttonHover", StoryAudio.Hover());
+        UIKit.Wire(audioManager, "buttonClick", StoryAudio.Click());
+        return audioManager;
+    }
+
+    private static AudioSource AudioSourceChild(Transform parent, string name, UnityEngine.Audio.AudioMixerGroup group, bool loop)
+    {
+        GameObject go = new GameObject(name, typeof(AudioSource));
+        go.transform.SetParent(parent, false);
+
+        AudioSource source = go.GetComponent<AudioSource>();
+        source.outputAudioMixerGroup = group;
+        source.playOnAwake = false;
+        source.loop = loop;
+        source.spatialBlend = 0f;
+        return source;
+    }
+
+    #endregion
 
     #region EventSystem
 
@@ -238,21 +280,32 @@ public static class GameSystemsBuilder
         cardGroup.blocksRaycasts = false; // Clicks go to the black screen, which cuts the card short
         cardGroup.interactable = false;
 
-        TextMeshProUGUI title = UIKit.Text("Title", card.transform, "ACT 1", 110, TextAlignmentOptions.Center, TitleColor, FontStyles.Bold);
+        // The heading (title, divider, subtitle) and the note take turns on the card
+        GameObject heading = UIKit.Create("Heading", card.transform);
+        UIKit.Stretch(heading);
+
+        TextMeshProUGUI title = UIKit.Text("Title", heading.transform, "ACT 1", 110, TextAlignmentOptions.Center, TitleColor, FontStyles.Bold);
         title.characterSpacing = 24;
         UIKit.Place(title.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, 70), new Vector2(1600, 150));
 
-        Image divider = UIKit.Panel("Divider", card.transform, new Color(1f, .54f, .24f, .85f));
+        Image divider = UIKit.Panel("Divider", heading.transform, new Color(1f, .54f, .24f, .85f));
         divider.raycastTarget = false;
         UIKit.Place(divider.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, -12), new Vector2(360, 3));
 
-        TextMeshProUGUI subtitle = UIKit.Text("Subtitle", card.transform, "The Man in the Rain", 44, TextAlignmentOptions.Center,
+        TextMeshProUGUI subtitle = UIKit.Text("Subtitle", heading.transform, "The Man in the Rain", 44, TextAlignmentOptions.Center,
             new Color(.76f, .64f, .92f), FontStyles.Italic);
         UIKit.Place(subtitle.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, -75), new Vector2(1600, 80));
 
+        TextMeshProUGUI note = UIKit.Text("Note", card.transform, "", 44, TextAlignmentOptions.Center, TitleColor, FontStyles.Italic);
+        UIKit.Place(note.gameObject, new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, 20), new Vector2(1300, 400));
+        note.lineSpacing = 14;
+        note.gameObject.SetActive(false);
+
         UIKit.Wire(fadeScreen, "titleCard", cardGroup);
+        UIKit.Wire(fadeScreen, "heading", heading);
         UIKit.Wire(fadeScreen, "titleText", title);
         UIKit.Wire(fadeScreen, "subtitleText", subtitle);
+        UIKit.Wire(fadeScreen, "noteText", note);
         return fadeScreen;
     }
 
@@ -499,7 +552,7 @@ public static class GameSystemsBuilder
     private static UI_PauseMenu BuildPauseMenu(Transform canvas)
     {
         GameObject go = UIKit.Create("PauseMenu", canvas);
-        Transform window = Window(go, new Vector2(520, 700));
+        Transform window = Window(go, new Vector2(520, 784));
         UIKit.Vertical(window.gameObject, 18, TextAnchor.MiddleCenter, new RectOffset(40, 40, 40, 40));
 
         UIKit.Text("Title", window, "Paused", 48, TextAlignmentOptions.Center, style: FontStyles.Bold);
@@ -509,6 +562,7 @@ public static class GameSystemsBuilder
         Button save = UIKit.Button("SaveButton", window, "Save", 30, size);
         Button load = UIKit.Button("LoadButton", window, "Load", 30, size);
         Button history = UIKit.Button("HistoryButton", window, "History", 30, size);
+        Button settings = UIKit.Button("SettingsButton", window, "Settings", 30, size);
         Button mainMenu = UIKit.Button("MainMenuButton", window, "Main Menu", 30, size);
         Button quit = UIKit.Button("QuitButton", window, "Quit", 30, size);
 
@@ -517,11 +571,58 @@ public static class GameSystemsBuilder
         UIKit.Wire(pause, "saveButton", save);
         UIKit.Wire(pause, "loadButton", load);
         UIKit.Wire(pause, "historyButton", history);
+        UIKit.Wire(pause, "settingsButton", settings);
         UIKit.Wire(pause, "mainMenuButton", mainMenu);
         UIKit.Wire(pause, "quitButton", quit);
 
         go.SetActive(false);
         return pause;
+    }
+
+    // Master, Music and Sound Effects: a volume slider and an ON/OFF toggle each
+    private static UI_Settings BuildSettingsMenu(Transform canvas)
+    {
+        GameObject go = UIKit.Create("SettingsMenu", canvas);
+        Transform window = Window(go, new Vector2(900, 600));
+        UIKit.Vertical(window.gameObject, 34, TextAnchor.MiddleCenter, new RectOffset(60, 60, 50, 50));
+
+        UIKit.Text("Title", window, "Settings", 48, TextAlignmentOptions.Center, style: FontStyles.Bold);
+
+        (Slider masterSlider, Toggle masterToggle) = VolumeRow(window, "Master");
+        (Slider musicSlider, Toggle musicToggle) = VolumeRow(window, "Music");
+        (Slider sfxSlider, Toggle sfxToggle) = VolumeRow(window, "Sound Effects");
+
+        Button close = UIKit.Button("CloseButton", window, "Back", 30, new Vector2(240, 66));
+
+        UI_Settings settings = go.AddComponent<UI_Settings>();
+        UIKit.Wire(settings, "masterSlider", masterSlider);
+        UIKit.Wire(settings, "masterToggle", masterToggle);
+        UIKit.Wire(settings, "musicSlider", musicSlider);
+        UIKit.Wire(settings, "musicToggle", musicToggle);
+        UIKit.Wire(settings, "sfxSlider", sfxSlider);
+        UIKit.Wire(settings, "sfxToggle", sfxToggle);
+        UIKit.Wire(settings, "closeButton", close);
+
+        go.SetActive(false);
+        return settings;
+    }
+
+    private static (Slider, Toggle) VolumeRow(Transform window, string label)
+    {
+        GameObject row = UIKit.Create(label + " Row", window, typeof(LayoutElement));
+        UIKit.Horizontal(row, 30, TextAnchor.MiddleLeft);
+        LayoutElement rowLayout = row.GetComponent<LayoutElement>();
+        rowLayout.preferredWidth = 780;
+        rowLayout.preferredHeight = 60;
+
+        TextMeshProUGUI text = UIKit.Text("Label", row.transform, label, 32, TextAlignmentOptions.MidlineLeft);
+        LayoutElement textLayout = text.gameObject.AddComponent<LayoutElement>();
+        textLayout.preferredWidth = 240;
+
+        Slider slider = UIKit.Slider("Volume", row.transform, new Vector2(360, 40), AudioManager.DefaultVolume);
+        slider.gameObject.AddComponent<CanvasGroup>(); // UI_Settings fades it while the channel is off
+        Toggle toggle = UIKit.ToggleButton("OnOff", row.transform, "ON", new Vector2(120, 52));
+        return (slider, toggle);
     }
 
     private static UI_SaveLoadMenu BuildSaveLoadMenu(Transform canvas, UI_SaveSlot slotPrefab)
@@ -569,7 +670,7 @@ public static class GameSystemsBuilder
 
     private static GameObject BuildSaveSlotPrefab()
     {
-        GameObject go = UIKit.Create("UI_SaveSlot", null, typeof(Image), typeof(Button), typeof(LayoutElement));
+        GameObject go = UIKit.Create("UI_SaveSlot", null, typeof(Image), typeof(Button), typeof(LayoutElement), typeof(UI_ButtonSound));
         ((RectTransform)go.transform).sizeDelta = new Vector2(560, 132);
         LayoutElement layout = go.GetComponent<LayoutElement>();
         layout.preferredWidth = 560;

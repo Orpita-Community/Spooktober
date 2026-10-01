@@ -19,4 +19,14 @@ public class StageDirection
     [Tooltip("Set = show the close-up picture below over the stage. Clear = take it away.")]
     public StageChange closeUp;
     public Stage_ImageSO closeUpImage;
+
+    [Header("Audio")]
+    [Tooltip("Keep = the music carries on. Set = switch to the track below (it loops). Clear = fade the music out.")]
+    public StageChange music;
+    public Audio_SoundSO musicTrack;
+    [Tooltip("A looping background sound such as rain. Keep, Set or Clear, like the music.")]
+    public StageChange ambience;
+    public Audio_SoundSO ambienceTrack;
+    [Tooltip("Played once when the line first appears (not during rollback, skipping, or when a save loads).")]
+    public Audio_SoundSO sound;
 }

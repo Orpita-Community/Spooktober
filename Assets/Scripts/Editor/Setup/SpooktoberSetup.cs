@@ -3,8 +3,8 @@ using UnityEngine;
 
 // Headless-only setup (no editor menu, so it can't overwrite work by accident):
 //   Unity.exe -batchmode -projectPath <project> -executeMethod SpooktoberSetup.BuildAll -quit
-// Running it rewrites the story data (every conversation's text, see StoryBuilder), the GameSystems and UI prefabs,
-// and the MainMenu and Shop scenes.
+// Running it rewrites the story data (every conversation's text, see StoryBuilder), the Sound assets, the GameSystems
+// and UI prefabs, and the Shop scene. An existing MainMenu scene is kept and only gets what's missing (see SceneBuilder).
 public static class SpooktoberSetup
 {
     public static void BuildAll()

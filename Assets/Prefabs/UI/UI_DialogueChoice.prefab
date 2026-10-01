@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 7433279304657179535}
   - component: {fileID: 8623045107276775279}
   - component: {fileID: 3524687483965935598}
+  - component: {fileID: 374419579440181923}
   - component: {fileID: 4370072721751179392}
   m_Layer: 5
   m_Name: UI_DialogueChoice
@@ -494,6 +495,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &374419579440181923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9186020653332337895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482ff9eedf0acd445a4b466a2c213a1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Spooktober::UI_ButtonSound
 --- !u!114 &4370072721751179392
 MonoBehaviour:
   m_ObjectHideFlags: 0

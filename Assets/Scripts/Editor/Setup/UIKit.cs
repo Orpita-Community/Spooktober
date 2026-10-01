@@ -14,6 +14,7 @@ public static class UIKit
     public static readonly Color MutedTextColor = new Color(.62f, .58f, .68f, 1f);
 
     public static Sprite RoundedSprite => AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+    public static Sprite KnobSprite => AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Knob.psd");
 
     public static GameObject Create(string name, Transform parent, params Type[] components)
     {
@@ -89,9 +90,10 @@ public static class UIKit
         return tmp;
     }
 
+    // Every button gets the menu hover and click sounds (UI_ButtonSound)
     public static Button Button(string name, Transform parent, string label, float fontSize, Vector2 size, bool flat = false)
     {
-        GameObject go = Create(name, parent, typeof(Image), typeof(Button), typeof(LayoutElement));
+        GameObject go = Create(name, parent, typeof(Image), typeof(Button), typeof(LayoutElement), typeof(UI_ButtonSound));
         Image image = go.GetComponent<Image>();
         Button button = go.GetComponent<Button>();
 
@@ -118,6 +120,90 @@ public static class UIKit
         ((RectTransform)go.transform).sizeDelta = size;
 
         return button;
+    }
+
+    // A 0-1 slider with the parts of Unity's default one: a track, an accent fill up to the value and a round handle
+    public static Slider Slider(string name, Transform parent, Vector2 size, float value)
+    {
+        GameObject go = Create(name, parent, typeof(Slider), typeof(LayoutElement));
+        float handleSize = size.y * .7f;
+        float trackInset = size.y * .3f;
+
+        Image track = Panel("Background", go.transform, new Color(.18f, .12f, .22f, 1f), rounded: true);
+        Stretch(track.gameObject, 0, trackInset, 0, trackInset);
+
+        // The slider moves the fill's right edge to the handle's centre
+        GameObject fillArea = Create("Fill Area", go.transform);
+        Stretch(fillArea, handleSize * .5f, trackInset, handleSize * .5f, trackInset);
+        Image fill = Panel("Fill", fillArea.transform, AccentColor, rounded: true);
+        RectTransform fillRect = (RectTransform)fill.transform;
+        fillRect.offsetMin = new Vector2(-handleSize * .5f, 0);
+        fillRect.offsetMax = Vector2.zero;
+
+        GameObject handleArea = Create("Handle Slide Area", go.transform);
+        Stretch(handleArea, handleSize * .5f, 0, handleSize * .5f, 0);
+        Image handle = Create("Handle", handleArea.transform, typeof(Image)).GetComponent<Image>();
+        handle.sprite = KnobSprite;
+        ((RectTransform)handle.transform).sizeDelta = new Vector2(handleSize, handleSize - size.y);
+
+        Slider slider = go.GetComponent<Slider>();
+        slider.fillRect = fillRect;
+        slider.handleRect = (RectTransform)handle.transform;
+        slider.targetGraphic = handle;
+        slider.colors = HandleColors();
+        slider.minValue = 0f;
+        slider.maxValue = 1f;
+        slider.value = value;
+
+        LayoutElement layout = go.GetComponent<LayoutElement>();
+        layout.preferredWidth = size.x;
+        layout.preferredHeight = size.y;
+        ((RectTransform)go.transform).sizeDelta = size;
+
+        return slider;
+    }
+
+    // An on/off switch that looks like a button: the accent fill shows while it's on. The menu that owns it sets the label.
+    public static Toggle ToggleButton(string name, Transform parent, string label, Vector2 size)
+    {
+        GameObject go = Create(name, parent, typeof(Image), typeof(Toggle), typeof(LayoutElement), typeof(UI_ButtonSound));
+        Image frame = go.GetComponent<Image>();
+        frame.sprite = RoundedSprite;
+        frame.type = Image.Type.Sliced;
+
+        // Inset, so the frame around it still lights up on hover
+        Image fill = Panel("On", go.transform, AccentColor, rounded: true);
+        Stretch(fill.gameObject, 4, 4, 4, 4);
+        fill.raycastTarget = false;
+
+        TextMeshProUGUI text = Text("Label", go.transform, label, 26, TextAlignmentOptions.Center, TextColor, FontStyles.Bold);
+        Stretch(text.gameObject);
+
+        Toggle toggle = go.GetComponent<Toggle>();
+        toggle.targetGraphic = frame;
+        toggle.graphic = fill;
+        toggle.colors = ButtonColors();
+        toggle.isOn = true;
+
+        LayoutElement layout = go.GetComponent<LayoutElement>();
+        layout.preferredWidth = size.x;
+        layout.preferredHeight = size.y;
+        ((RectTransform)go.transform).sizeDelta = size;
+
+        return toggle;
+    }
+
+    public static ColorBlock HandleColors()
+    {
+        ColorBlock colors = ColorBlock.defaultColorBlock;
+        colors.normalColor = TextColor;
+        colors.highlightedColor = new Color(1f, .78f, .88f, 1f);
+        colors.selectedColor = new Color(1f, .78f, .88f, 1f);
+        colors.pressedColor = new Color(1f, .6f, .76f, 1f);
+        colors.disabledColor = new Color(.45f, .42f, .48f, .8f);
+        colors.colorMultiplier = 1f;
+        colors.fadeDuration = .08f;
+        return colors;
     }
 
     public static ColorBlock ButtonColors()

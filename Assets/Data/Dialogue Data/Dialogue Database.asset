@@ -76,3 +76,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8a9b04edf446e1f439be65aea3c70744, type: 2}
   - {fileID: 11400000, guid: 6721de5125f212d4fb4b8a42eaa7636c, type: 2}
   - {fileID: 11400000, guid: 879a82868906da9459958b3aa95d5722, type: 2}
+  - {fileID: 11400000, guid: 7e2788ea3532af4419e0b8fa06599d63, type: 2}
+  sounds:
+  - {fileID: 11400000, guid: a3747663505119c40870c132ecd61478, type: 2}
+  - {fileID: 11400000, guid: e5045acfaf3b2204daf01aac16a29f4a, type: 2}
+  - {fileID: 11400000, guid: dcb8e75b747c24541ac33fa5e946e8cc, type: 2}
+  - {fileID: 11400000, guid: 4773f4dea47609c4792d3f87e0252fa8, type: 2}
+  - {fileID: 11400000, guid: 39b2fa3cf4a8ef842b17777aa38db5b1, type: 2}
+  - {fileID: 11400000, guid: f24b07b4475c0dc40b0329eb142ee139, type: 2}
+  - {fileID: 11400000, guid: f3a06601187d8a54da99dcad9bf838e6, type: 2}
+  - {fileID: 11400000, guid: 2bb97d3e05e4060408996a61c716bb73, type: 2}

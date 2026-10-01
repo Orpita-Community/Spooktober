@@ -83,6 +83,38 @@ public class StageSnapshotTests
     }
 
     [Test]
+    public void MusicAndAmbienceCanBeSetKeptAndClearedSeparately()
+    {
+        Audio_SoundSO theme = content.Sound("music-theme");
+        Audio_SoundSO rain = content.Sound("amb-rain");
+
+        StageSnapshot playing = AdamAndVanceInTheShop().With(
+            new StageDirection { music = StageChange.Set, musicTrack = theme, ambience = StageChange.Set, ambienceTrack = rain }, null, PortraitExpression.Normal);
+        StageSnapshot kept = playing.With(new StageDirection(), null, PortraitExpression.Normal);
+        StageSnapshot rainStops = kept.With(new StageDirection { ambience = StageChange.Clear }, null, PortraitExpression.Normal);
+        StageSnapshot musicStops = rainStops.With(new StageDirection { music = StageChange.Clear }, null, PortraitExpression.Normal);
+
+        Assert.AreEqual("music-theme", playing.musicID);
+        Assert.AreEqual("amb-rain", playing.ambienceID);
+        Assert.AreEqual("music-theme", kept.musicID);
+        Assert.AreEqual("amb-rain", kept.ambienceID);
+        Assert.AreEqual("music-theme", rainStops.musicID, "Stopping the rain leaves the music playing.");
+        Assert.AreEqual("", rainStops.ambienceID);
+        Assert.AreEqual("", musicStops.musicID);
+        Assert.AreEqual("bg-shop", musicStops.backgroundID, "Audio changes leave the picture alone.");
+    }
+
+    [Test]
+    public void ASetWithoutATrackStopsIt()
+    {
+        StageSnapshot playing = new StageSnapshot { musicID = "music-theme" };
+
+        StageSnapshot after = playing.With(new StageDirection { music = StageChange.Set }, null, PortraitExpression.Normal);
+
+        Assert.AreEqual("", after.musicID);
+    }
+
+    [Test]
     public void ASpeakerOnStageShowsTheirLinesExpression()
     {
         StageSnapshot stage = AdamAndVanceInTheShop();

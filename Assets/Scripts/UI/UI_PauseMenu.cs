@@ -7,6 +7,7 @@ public class UI_PauseMenu : MonoBehaviour
     [SerializeField] private Button saveButton;
     [SerializeField] private Button loadButton;
     [SerializeField] private Button historyButton;
+    [SerializeField] private Button settingsButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button quitButton;
 
@@ -18,6 +19,9 @@ public class UI_PauseMenu : MonoBehaviour
 
         if (historyButton != null)
             historyButton.onClick.AddListener(() => DialogueManager.Instance.OpenBacklog());
+
+        if (settingsButton != null)
+            settingsButton.onClick.AddListener(() => UI.Instance.settingsMenu.Open());
 
         mainMenuButton.onClick.AddListener(() =>
             UI.Instance.confirmDialog.Ask("Return to the main menu?\nUnsaved progress will be lost.", GameManager.Instance.ReturnToMainMenu));

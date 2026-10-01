@@ -11,11 +11,19 @@ public class UI_FadeScreen : MonoBehaviour, IPointerClickHandler
 {
     [Header("Title Card (optional)")]
     [SerializeField] private CanvasGroup titleCard;
+    [Tooltip("Holds the title, subtitle and divider, hidden while the note shows.")]
+    [SerializeField] private GameObject heading;
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI subtitleText;
+    [Tooltip("Shows a card's note on its own, after the title.")]
+    [SerializeField] private TextMeshProUGUI noteText;
     [SerializeField] private float titleFadeTime = .7f;
-    [Tooltip("How long the card stays up. Clicking or pressing Advance cuts it short.")]
+    [Tooltip("How long the title stays up. Clicking or pressing Advance cuts it short.")]
     [SerializeField] private float titleHoldTime = 2.2f;
+    [Tooltip("A note stays up at least this long...")]
+    [SerializeField] private float noteHoldTime = 2.5f;
+    [Tooltip("...plus this much per character, so there's time to read it.")]
+    [SerializeField] private float noteHoldPerCharacter = .045f;
 
     public Coroutine fadeEffectCo { get; private set; }
     private Image fadeImage;
@@ -67,20 +75,38 @@ public class UI_FadeScreen : MonoBehaviour, IPointerClickHandler
         FadeEffect(0f, duration);
     }
 
-    // Shows a title card on the black screen: text fades in, holds, fades out. Call it once the screen is black.
+    // Shows a title card on the black screen: the title fades in, holds and fades out, then the note (if any) does the same.
+    // Call it once the screen is black.
     public IEnumerator TitleCardCo(TitleCard card, bool quick, Func<bool> skipRequested = null)
     {
         if (card == null || card.IsEmpty || titleCard == null)
             yield break;
 
-        titleText.text = card.title;
-        subtitleText.text = card.subtitle;
-        subtitleText.gameObject.SetActive(!string.IsNullOrWhiteSpace(card.subtitle));
         OnTitleCardShown?.Invoke(card);
-
         float fadeTime = quick ? titleFadeTime * .35f : titleFadeTime;
-        float holdTime = quick ? .4f : titleHoldTime;
 
+        if (!string.IsNullOrWhiteSpace(card.title) || !string.IsNullOrWhiteSpace(card.subtitle))
+        {
+            ShowHeading(true);
+            titleText.text = card.title;
+            subtitleText.text = card.subtitle;
+            subtitleText.gameObject.SetActive(!string.IsNullOrWhiteSpace(card.subtitle));
+
+            yield return ShowCardCo(fadeTime, quick ? .4f : titleHoldTime, skipRequested);
+        }
+
+        if (!string.IsNullOrWhiteSpace(card.note) && noteText != null)
+        {
+            ShowHeading(false);
+            noteText.text = card.note;
+
+            float readingTime = noteHoldTime + card.note.Length * noteHoldPerCharacter;
+            yield return ShowCardCo(fadeTime, quick ? .4f : readingTime, skipRequested);
+        }
+    }
+
+    private IEnumerator ShowCardCo(float fadeTime, float holdTime, Func<bool> skipRequested)
+    {
         yield return FadeTitleCo(1f, fadeTime);
 
         int holdStartFrame = Time.frameCount;
@@ -94,6 +120,21 @@ public class UI_FadeScreen : MonoBehaviour, IPointerClickHandler
         }
 
         yield return FadeTitleCo(0f, fadeTime);
+    }
+
+    // The title and the note take turns on the card
+    private void ShowHeading(bool show)
+    {
+        if (heading != null)
+            heading.SetActive(show);
+        else
+        {
+            titleText.gameObject.SetActive(show);
+            subtitleText.gameObject.SetActive(show);
+        }
+
+        if (noteText != null)
+            noteText.gameObject.SetActive(!show);
     }
 
     // The black screen catches clicks while it's up, which is how a click cuts a title card short

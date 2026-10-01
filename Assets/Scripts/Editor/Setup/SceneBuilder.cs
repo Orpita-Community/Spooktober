@@ -1,11 +1,13 @@
+using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// Builds the MainMenu scene (logo, Mr. Vance, the menu buttons) and sets up the Shop scene
+// Builds the MainMenu scene (logo, Mr. Vance, the menu buttons) if there isn't one, and sets up the Shop scene
 // (the template SampleScene, renamed): its backdrop and the trigger that starts the prologue. Then sets the build scene list.
+// An existing MainMenu is the team's design, so it only gets what newer code needs (see UpdateMainMenu).
 public static class SceneBuilder
 {
     public const string MainMenuScene = "MainMenu";
@@ -21,7 +23,11 @@ public static class SceneBuilder
     {
         AssetFolders.Ensure("Assets/Scenes");
 
-        BuildMainMenu();
+        if (AssetDatabase.LoadAssetAtPath<SceneAsset>(MainMenuPath) == null)
+            BuildMainMenu();
+        else
+            UpdateMainMenu();
+
         BuildShop(story);
 
         EditorBuildSettings.scenes = new[]
@@ -70,22 +76,88 @@ public static class SceneBuilder
             new Vector2(logoWidth, logoWidth * logoSprite.rect.height / logoSprite.rect.width));
 
         GameObject buttons = UIKit.Create("Buttons", canvasGO.transform);
-        UIKit.Place(buttons, new Vector2(0, 0), new Vector2(0, 0), new Vector2(200, 110), new Vector2(420, 380));
+        UIKit.Place(buttons, new Vector2(0, 0), new Vector2(0, 0), new Vector2(200, 110), new Vector2(420, 470));
         UIKit.Vertical(buttons, 20, TextAnchor.LowerLeft);
 
         Vector2 size = new Vector2(380, 72);
         Button newGame = UIKit.Button("NewGameButton", buttons.transform, "New Game", 32, size);
         Button continueGame = UIKit.Button("ContinueButton", buttons.transform, "Continue", 32, size);
         Button load = UIKit.Button("LoadButton", buttons.transform, "Load", 32, size);
+        Button settings = UIKit.Button("SettingsButton", buttons.transform, "Settings", 32, size);
         Button quit = UIKit.Button("QuitButton", buttons.transform, "Quit", 32, size);
 
         UI_MainMenu menu = canvasGO.AddComponent<UI_MainMenu>();
         UIKit.Wire(menu, "newGameButton", newGame);
         UIKit.Wire(menu, "continueButton", continueGame);
         UIKit.Wire(menu, "loadButton", load);
+        UIKit.Wire(menu, "settingsButton", settings);
         UIKit.Wire(menu, "quitButton", quit);
 
         EditorSceneManager.SaveScene(scene, MainMenuPath);
+    }
+
+    // Brings a main menu made before the settings and button sounds up to date, leaving the rest of its design alone.
+    // Safe to run again: it only adds what's missing.
+    private static void UpdateMainMenu()
+    {
+        Scene scene = EditorSceneManager.OpenScene(MainMenuPath, OpenSceneMode.Single);
+
+        UI_MainMenu menu = Object.FindAnyObjectByType<UI_MainMenu>(FindObjectsInactive.Include);
+        if (menu == null)
+            throw new System.Exception("The MainMenu scene has no UI_MainMenu.");
+
+        SerializedObject serialized = new SerializedObject(menu);
+        bool changed = false;
+
+        if (UIKit.Property(serialized, "settingsButton").objectReferenceValue == null)
+        {
+            Button load = (Button)UIKit.Property(serialized, "loadButton").objectReferenceValue;
+            Button quit = (Button)UIKit.Property(serialized, "quitButton").objectReferenceValue;
+            UIKit.Wire(menu, "settingsButton", AddSettingsButton(load, quit));
+            changed = true;
+        }
+
+        foreach (Button button in menu.GetComponentsInChildren<Button>(true))
+        {
+            if (!button.TryGetComponent(out UI_ButtonSound _))
+            {
+                button.gameObject.AddComponent<UI_ButtonSound>();
+                changed = true;
+            }
+        }
+
+        if (changed)
+            EditorSceneManager.SaveScene(scene);
+    }
+
+    // A copy of the Load button (so it has the menu's look), placed before Quit. The button column grows by one
+    // button, so a column that stretches its buttons to fill it doesn't squeeze them smaller.
+    private static Button AddSettingsButton(Button load, Button quit)
+    {
+        RectTransform column = (RectTransform)load.transform.parent;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(column);
+        float buttonHeight = ((RectTransform)load.transform).rect.height;
+
+        GameObject copy = Object.Instantiate(load.gameObject, column);
+        copy.name = "SettingsButton";
+        copy.transform.SetSiblingIndex(quit != null && quit.transform.parent == column ? quit.transform.GetSiblingIndex() : column.childCount - 1);
+
+        TextMeshProUGUI label = copy.GetComponentInChildren<TextMeshProUGUI>(true);
+        if (label != null)
+            label.text = "Settings";
+
+        Button settings = copy.GetComponent<Button>();
+        settings.interactable = true; // Load is greyed out until there's a save; Settings never is
+
+        // Don't inherit anything the team hooked up to Load in the Inspector
+        SerializedObject serialized = new SerializedObject(settings);
+        UIKit.Property(serialized, "m_OnClick.m_PersistentCalls.m_Calls").arraySize = 0;
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+
+        if (column.TryGetComponent(out VerticalLayoutGroup layout))
+            column.sizeDelta += new Vector2(0, buttonHeight + layout.spacing);
+
+        return settings;
     }
 
     private static void BuildShop(StoryBuilder.Result story)

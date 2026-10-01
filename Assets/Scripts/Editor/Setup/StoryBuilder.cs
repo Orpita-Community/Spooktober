@@ -34,6 +34,19 @@ public static class StoryBuilder
 
     public static Result Build() => new Writer().Write();
 
+    // An existing asset is reused, so its GUID (and the saveID stamped from it) never changes
+    public static T LoadOrCreate<T>(string path) where T : ScriptableObject
+    {
+        T asset = AssetDatabase.LoadAssetAtPath<T>(path);
+        if (asset != null)
+            return asset;
+
+        AssetFolders.EnsureParent(path);
+        asset = ScriptableObject.CreateInstance<T>();
+        AssetDatabase.CreateAsset(asset, path);
+        return asset;
+    }
+
     private class Writer
     {
         private Story_VariableSO humanity;
@@ -47,7 +60,10 @@ public static class StoryBuilder
         private Dialogue_SpeakerSO alexander;
 
         private Stage_ImageSO street, shopFront, shopWithNotice, shop, workshopCape, workshopDress, shopMemory, shopDawn, shopCold, shopFrontDawn;
-        private Stage_ImageSO finalNotice, maskBox, maskInBox, mask;
+        private Stage_ImageSO finalNotice, maskBox, maskInBox, mask, signedPaper;
+
+        private Audio_SoundSO theme, rainOutside, rainInside;
+        private Audio_SoundSO thunder, door, maskBoxOpen, paper, pen;
 
         private Story_ChapterSO prologue, act1, act2, act3;
 
@@ -71,6 +87,7 @@ public static class StoryBuilder
             CreateVariables();
             CreateSpeakers();
             CreateImages();
+            CreateSounds();
             CreateChapters();
             CreateConversations(); // All of them first, so they can point at each other
 
@@ -100,8 +117,8 @@ public static class StoryBuilder
         {
             // P-01 — EXTERIOR
             Begin(p01, prologue, autosave: true);
-            Narrate("October 31st.", Stage().Bg(street));
-            Narrate("Halloween night.");
+            Narrate("October 31st.", Stage().Bg(street).Music(theme).Ambience(rainOutside));
+            Narrate("Halloween night.", Stage().Sound(thunder)); // SFX_02_THUNDER
             Narrate("Five years ago, on this exact night, the owner of this shop vanished without a trace.", Stage().Bg(shopFront));
             Narrate("The shop stayed.");
             Narrate("The debt stayed.");
@@ -111,7 +128,7 @@ public static class StoryBuilder
             // P-02 — INSIDE THE SHOP
             Begin(p02);
             Portrait(adam, PortraitExpression.Normal);
-            Say(adam, "Tomorrow.", Stage().Fade().Bg(shopWithNotice).Cast(On(adam, StageSlot.Center)));
+            Say(adam, "Tomorrow.", Stage().Fade().Bg(shopWithNotice).Cast(On(adam, StageSlot.Center)).Ambience(rainInside));
             Say(adam, "Nine AM.");
             Say(adam, "Final deadline.");
             Say(adam, "After that, this place isn't mine anymore.");
@@ -142,9 +159,9 @@ public static class StoryBuilder
             Portrait(adam, PortraitExpression.Normal);
             Say(adam, "Enough.");
             Narrate("Silence.");
-            Narrate("The doorbell rings."); // SFX_04_DOORBELL (no audio yet)
+            Narrate("The doorbell rings.", Stage().Sound(door)); // SFX_04_DOORBELL: someone has come in
             Narrate("Adam freezes.");
-            Narrate("It rings again."); // SFX_04_DOORBELL
+            Narrate("It rings again."); // SFX_04_DOORBELL (the door sound already played)
             Portrait(adam, PortraitExpression.Shocked);
             Narrate("The door was locked.");
             JumpTo(a01);
@@ -193,7 +210,7 @@ public static class StoryBuilder
             Say(vance, "Tonight.");
             Say(adam, "You kept it for five years?");
             Say(vance, "I was told to.");
-            Narrate("Vance opens the box.");
+            Narrate("Vance opens the box.", Stage().Sound(maskBoxOpen));
             Narrate("Inside is a glossy black obsidian mask.", Stage().CloseUp(maskInBox));
             Narrate("Its surface catches the light like dark glass.");
             Say(adam, "That's...");
@@ -253,7 +270,7 @@ public static class StoryBuilder
             Say(vance, "I'm forgiving the thousand-dollar deposit.");
             Say(adam, "Why?");
             Say(vance, "One condition.");
-            Narrate("Vance places a paper on the counter.");
+            Narrate("Vance places a paper on the counter.", Stage().Sound(paper)); // SFX_06_PAPER
             Say(vance, "Sign that you received it from me tonight.");
             Say(adam, "That's it?");
             Say(vance, "That's it.");
@@ -279,10 +296,10 @@ public static class StoryBuilder
             // A-05 — THE SIGNATURE
             Begin(a05);
             Portrait(adam, PortraitExpression.Normal);
-            Narrate("Adam signs his name."); // SFX_07_PEN
+            Narrate("Adam signs his name.", Stage().CloseUp(signedPaper).Sound(pen)); // SFX_07_PEN
             Narrate("Silence.");
             Portrait(vance, PortraitExpression.Sad);
-            Say(vance, "I thought signing would be easy for me too.");
+            Say(vance, "I thought signing would be easy for me too.", Stage().NoCloseUp());
             Say(adam, "What?");
             Say(vance, "It wasn't easy at all.");
             // Short fade to black. Return to shop. Vance is gone.
@@ -303,7 +320,8 @@ public static class StoryBuilder
             Narrate("Looks back.");
             Say(adam, "...");
             Portrait(adamMasked, PortraitExpression.Shocked);
-            Narrate("The reflection is wearing the mask.", Stage().Flash().Cast(On(adamMasked, StageSlot.Center)));
+            // Thunder stands in for SFX_08_SUPERNATURAL_LOW, which has no file yet: with the flash it reads as lightning
+            Narrate("The reflection is wearing the mask.", Stage().Flash().Cast(On(adamMasked, StageSlot.Center)).Sound(thunder));
             Say(adamMasked, "No.");
             Say(adamMasked, "What the hell?");
             Say(adamMasked, "Get it off.");
@@ -333,7 +351,7 @@ public static class StoryBuilder
         {
             // BOX 1 — THE CAPE
             Begin(b1, act2, autosave: true);
-            Caption("BOX ONE.", Stage().Bg(workshopCape).NoCast());
+            Caption("BOX ONE.", Stage().Bg(workshopCape).NoCast().NoAmbience()); // No rain in the memories
             Portrait(alexander, PortraitExpression.Happy);   // WARM
             Portrait(youngAdam, PortraitExpression.Curious);
             // Alexander by his sewing table, facing the boy, so the cape on the mannequin stays in view
@@ -547,7 +565,7 @@ public static class StoryBuilder
             Narrate("Nobody wins.");
             Narrate("Nobody changes the other's mind.");
             Narrate("Alexander closes the ledger.");
-            Narrate("Adam leaves.", Stage().Cast(On(alexander, StageSlot.Right))); // "Young Adam leaves." in the dev scenario, but it's the grown-up Adam here
+            Narrate("Adam leaves.", Stage().Cast(On(alexander, StageSlot.Right)).Sound(door)); // "Young Adam leaves." in the dev scenario, but it's the grown-up Adam here
             Narrate("Alexander remains alone in the shop.", Stage().Cast(On(alexander, StageSlot.Center)));
             Portrait(alexander, PortraitExpression.Sad);
             Narrate("For the first time, Adam notices what he didn't notice five years ago.");
@@ -561,7 +579,7 @@ public static class StoryBuilder
             // ACT 2 — RETURN TO PRESENT
             Begin(b4);
             Portrait(adamMasked, PortraitExpression.Sad);
-            Say(adamMasked, "That was our last argument.", Stage().Fade().Bg(shop).Cast(On(adamMasked, StageSlot.Center)));
+            Say(adamMasked, "That was our last argument.", Stage().Fade().Bg(shop).Cast(On(adamMasked, StageSlot.Center)).Ambience(rainInside));
             Say(adamMasked, "I forgot most of it.");
             Say(adamMasked, "Or maybe I didn't want to remember.");
             Narrate("Adam looks around the shop.");
@@ -585,7 +603,7 @@ public static class StoryBuilder
             Begin(c01, act3, autosave: true);
             Portrait(adamMasked, PortraitExpression.Normal);
             Portrait(vance, PortraitExpression.Normal);
-            Narrate("Vance stands near the door.", Stage().Bg(shop).Cast(On(adamMasked, StageSlot.Left), On(vance, StageSlot.Right)));
+            Narrate("Vance stands near the door.", Stage().Bg(shop).Cast(On(adamMasked, StageSlot.Left), On(vance, StageSlot.Right)).Sound(door));
             Say(vance, "Time's up, Adam.");
             Say(adamMasked, "It's midnight.");
             Say(vance, "Yes.");
@@ -651,15 +669,15 @@ public static class StoryBuilder
             Say(adam, "What did he refuse?");
             Say(vance, "The same thing you almost accepted.");
             Say(adam, "What?");
-            Narrate("Vance looks at the signed paper.");
+            Narrate("Vance looks at the signed paper.", Stage().CloseUp(signedPaper).Sound(paper));
             Say(vance, "A way out.");
-            Narrate("Silence.");
+            Narrate("Silence.", Stage().NoCloseUp());
             Narrate("Vance disappears.", Stage().Cast(On(adam, StageSlot.Left)));
             JumpTo(dawn);
 
             // HUMANITY ENDING — DAWN
             Begin(dawn);
-            Narrate("The rain has stopped.", Stage().Fade().Bg(shopDawn).Cast(On(adam, StageSlot.Center)));
+            Narrate("The rain has stopped.", Stage().Fade().Bg(shopDawn).Cast(On(adam, StageSlot.Center)).NoAmbience());
             Narrate("The shop is still standing.");
             Narrate("For the first time, it doesn't feel like a prison.");
             Narrate("Adam picks up the final notice.", Stage().CloseUp(finalNotice));
@@ -670,7 +688,7 @@ public static class StoryBuilder
             Portrait(adam, PortraitExpression.Happy);        // SOFT_SMILE
             Say(adam, "I still don't know what I'm going to do with this place.", Stage().NoCloseUp());
             Say(adam, "But I know I'm not going to spend another five years hating him for it.");
-            Narrate("Adam steps outside.", Stage().Fade().Bg(shopFrontDawn).NoCast());
+            Narrate("Adam steps outside.", Stage().Fade().Bg(shopFrontDawn).NoCast().Sound(door));
             Narrate("The rain has stopped.");
             Narrate("The broken neon flickers once.");
             Narrate("The sign stays on."); // SFX_03_NEON
@@ -700,7 +718,7 @@ public static class StoryBuilder
             Say(adamMasked, "Yes.");
             Say(vance, "Then look again.");
             Portrait(adamMasked, PortraitExpression.Scared); // FRIGHTENED
-            Narrate("Adam's reflection now wears Vance's grey coat.", Stage().Flash());
+            Narrate("Adam's reflection now wears Vance's grey coat.", Stage().Flash().Sound(thunder)); // Stand-in for SFX_08_SUPERNATURAL_LOW
             Say(adamMasked, "What did you do?");
             Say(vance, "Nothing.");
             Say(adamMasked, "Then why does it look like you?");
@@ -718,18 +736,18 @@ public static class StoryBuilder
             Say(adamMasked, "So what happened to him?");
             Say(vance, "I don't know.");
             Say(adamMasked, "Then what do you know?");
-            Narrate("Vance looks at the signed paper.");
+            Narrate("Vance looks at the signed paper.", Stage().CloseUp(signedPaper).Sound(paper));
             Say(vance, "He said no.");
             Say(adamMasked, "No to what?");
             Say(vance, "The same thing you just said yes to.");
-            Narrate("Silence.");
-            Narrate("Vance disappears.", Stage().Cast(On(adamMasked, StageSlot.Left)));
+            Narrate("Silence.", Stage().NoCloseUp());
+            Narrate("Vance disappears.", Stage().Cast(On(adamMasked, StageSlot.Left)).NoMusic()); // SFX: All BGM cuts.
             JumpTo(finalShot);
 
             // CYNICISM ENDING — FINAL SHOT
             Begin(finalShot);
             Portrait(adamMasked, PortraitExpression.Normal);
-            Narrate("The shop is silent.", Stage().Fade().Bg(shopCold).Cast(On(adamMasked, StageSlot.Center)));
+            Narrate("The shop is silent.", Stage().Fade().Bg(shopCold).Cast(On(adamMasked, StageSlot.Center)).NoAmbience()); // No music, no rain
             Narrate("The final notice is still on the counter.");
             Narrate("The clock keeps moving toward nine.");
             Narrate("Adam looks into the mirror.");
@@ -747,7 +765,8 @@ public static class StoryBuilder
         {
             prologue = Chapter("Prologue", "Prologue — October 31", "PROLOGUE", "October 31");
             act1 = Chapter("Act 1", "Act 1 — The Man in the Rain", "ACT 1", "The Man in the Rain");
-            act2 = Chapter("Act 2", "Act 2 — The Three Boxes", "ACT 2", "The Three Boxes");
+            act2 = Chapter("Act 2", "Act 2 — The Three Boxes", "ACT 2", "The Three Boxes",
+                "The mask will show you the memory you have of the costume in the box and might let you change something from the past.");
             act3 = Chapter("Act 3", "Act 3 — The Final Notice", "ACT 3", "The Final Notice");
         }
 
@@ -835,6 +854,19 @@ public static class StoryBuilder
             maskBox = Image("Close-ups", "CU - Mask Box", StoryArt.CloseUp(StoryArt.MaskBox));
             maskInBox = Image("Close-ups", "CU - Mask in Box", StoryArt.CloseUp(StoryArt.MaskInBox));
             mask = Image("Close-ups", "CU - Mask", StoryArt.CloseUp(StoryArt.Mask));
+            signedPaper = Image("Close-ups", "CU - Signed Paper", StoryArt.CloseUp(StoryArt.SignedPaper));
+        }
+
+        private void CreateSounds()
+        {
+            theme = StoryAudio.MainTheme();
+            rainOutside = StoryAudio.RainOutsideLoop();
+            rainInside = StoryAudio.RainInsideLoop();
+            thunder = StoryAudio.ThunderClap();
+            door = StoryAudio.DoorOpenClose();
+            maskBoxOpen = StoryAudio.MaskBox();
+            paper = StoryAudio.Paper();
+            pen = StoryAudio.Pen();
         }
 
         #endregion
@@ -920,6 +952,12 @@ public static class StoryBuilder
                     direction.closeUp = StageChange.Set;
                     direction.closeUpImage = stage.closeUp;
                 }
+
+                direction.music = stage.music;
+                direction.musicTrack = stage.musicTrack;
+                direction.ambience = stage.ambience;
+                direction.ambienceTrack = stage.ambienceTrack;
+                direction.sound = stage.sound;
             }
 
             // A face change shows up by itself when that character speaks. Anyone else's needs the cast re-set.
@@ -1008,11 +1046,11 @@ public static class StoryBuilder
             return variable;
         }
 
-        private static Story_ChapterSO Chapter(string name, string label, string title, string subtitle)
+        private static Story_ChapterSO Chapter(string name, string label, string title, string subtitle, string note = "")
         {
             Story_ChapterSO chapter = LoadOrCreate<Story_ChapterSO>($"{StoryFolder}/Chapters/Chapter - {name}.asset");
             chapter.label = label;
-            chapter.titleCard = new TitleCard { title = title, subtitle = subtitle };
+            chapter.titleCard = new TitleCard { title = title, subtitle = subtitle, note = note };
             EditorUtility.SetDirty(chapter);
             return chapter;
         }
@@ -1045,22 +1083,10 @@ public static class StoryBuilder
             return image;
         }
 
-        public static T LoadOrCreate<T>(string path) where T : ScriptableObject
-        {
-            T asset = AssetDatabase.LoadAssetAtPath<T>(path);
-            if (asset != null)
-                return asset;
-
-            AssetFolders.EnsureParent(path);
-            asset = ScriptableObject.CreateInstance<T>();
-            AssetDatabase.CreateAsset(asset, path);
-            return asset;
-        }
-
         #endregion
     }
 
-    // What a line does to the stage, written fluently: Stage().Fade().Bg(shop).Cast(On(adam, Left))
+    // What a line does to the stage, written fluently: Stage().Fade().Bg(shop).Cast(On(adam, Left)).Sound(door)
     private class Direction
     {
         public StageTransition transition;
@@ -1069,6 +1095,11 @@ public static class StoryBuilder
         public bool clearCast;
         public Stage_ImageSO closeUp;
         public bool clearCloseUp;
+        public StageChange music;
+        public Audio_SoundSO musicTrack;
+        public StageChange ambience;
+        public Audio_SoundSO ambienceTrack;
+        public Audio_SoundSO sound;
 
         public Direction Fade() { transition = StageTransition.Fade; return this; }
         public Direction Flash() { transition = StageTransition.Flash; return this; }
@@ -1077,5 +1108,10 @@ public static class StoryBuilder
         public Direction NoCast() { clearCast = true; return this; }
         public Direction CloseUp(Stage_ImageSO image) { closeUp = image; return this; }
         public Direction NoCloseUp() { clearCloseUp = true; return this; }
+        public Direction Music(Audio_SoundSO track) { music = StageChange.Set; musicTrack = track; return this; }
+        public Direction NoMusic() { music = StageChange.Clear; return this; }
+        public Direction Ambience(Audio_SoundSO track) { ambience = StageChange.Set; ambienceTrack = track; return this; }
+        public Direction NoAmbience() { ambience = StageChange.Clear; return this; }
+        public Direction Sound(Audio_SoundSO effect) { sound = effect; return this; }
     }
 }

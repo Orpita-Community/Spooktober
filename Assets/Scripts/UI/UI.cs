@@ -18,6 +18,7 @@ public class UI : MonoBehaviour
     public UI_PauseMenu pauseMenu;
     public UI_SaveLoadMenu saveLoadMenu;
     public UI_ConfirmDialog confirmDialog;
+    public UI_Settings settingsMenu;
     public UI_FadeScreen fadeScreen;
     [Tooltip("Backgrounds and characters behind the dialogue box (on its own canvas below this one).")]
     public UI_Stage stage;
